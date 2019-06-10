@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。Ja">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java OOM 分析">
+<meta property="og:url" content="http://yoursite.com/2019/06/10/oom-analysis-1/index.html">
+<meta property="og:site_name" content="慵懒的他">
+<meta property="og:description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。Ja">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload.cc/i1/2019/06/10/EOnKxR.png">
+<meta property="og:updated_time" content="2019-06-10T14:18:39.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java OOM 分析">
+<meta name="twitter:description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。Ja">
+<meta name="twitter:image" content="https://upload.cc/i1/2019/06/10/EOnKxR.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/myBlog-favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/myBlog-favicon.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/myBlog-favicon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Java OOM 分析</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/02/17/spring-xml-namespace/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+       <!--  <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li> -->
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/10/oom-analysis-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/10/oom-analysis-1/&text=Java OOM 分析"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/10/oom-analysis-1/&is_video=false&description=Java OOM 分析"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java OOM 分析&body=Check out this article: http://yoursite.com/2019/06/10/oom-analysis-1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/10/oom-analysis-1/&name=Java OOM 分析&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-OOM"><span class="toc-number">1.</span> <span class="toc-text">什么是 OOM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM-内存模型"><span class="toc-number">1.1.</span> <span class="toc-text">JVM 内存模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么会-OOM"><span class="toc-number">2.</span> <span class="toc-text">为什么会 OOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OOM-类型"><span class="toc-number">3.</span> <span class="toc-text">OOM 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析-OOM-思路"><span class="toc-number">4.</span> <span class="toc-text">分析 OOM 思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脑图"><span class="toc-number">5.</span> <span class="toc-text">脑图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文章"><span class="toc-number">6.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Java OOM 分析
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">陈加菲</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-10T13:12:47.000Z" itemprop="datePublished">2019-06-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/JVM/">JVM</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="什么是-OOM"><a href="#什么是-OOM" class="headerlink" title="什么是 OOM"></a>什么是 OOM</h3><p>在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。</p>
+<p>而这个内存，指代的是 JVM 管理的内存模型</p>
+<h4 id="JVM-内存模型"><a href="#JVM-内存模型" class="headerlink" title="JVM 内存模型"></a>JVM 内存模型</h4><p>JVM 在运行时管理的内存区域分别如下</p>
+<ol>
+<li>程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。</li>
+<li>Java 虚拟机栈。Java 中方法的调用会为方法创建栈帧，然后在线程的 Java 虚拟机栈中进行出栈入栈，记录调用情况；除此，Java 虚拟机栈还会记录局部变量表，操作数栈等信息，同样为每个线程私有。</li>
+<li>Java 堆内存。程序中创建的对象，便存储在 Java 堆内存中，其也是 GC 的主要地方，堆内存中的对象又按不同的 “生存” 情况分为新生代，老年代等。Java 堆内存为所有线程共有。</li>
+<li>方法区 / Metaspace。该区域主要存放类的元信息，在 JDK 1.8 后新独立出来 Metaspace。</li>
+<li>本地方法栈。为 natice 方法，调用本地操作系统类库提供内存环境。</li>
+<li>堆外内存。这一区域不属于 JVM 内存，是可直接访问的内存，如 NIO 会访问到这部分。</li>
+</ol>
+<h3 id="为什么会-OOM"><a href="#为什么会-OOM" class="headerlink" title="为什么会 OOM"></a>为什么会 OOM</h3><p>发送 OOM，简单来说可总结为两个原因：</p>
+<ul>
+<li>分配给 JVM 的内存确实不够用</li>
+<li>分配的内存是够用的，但是代码写的不好，多余的内存没有释放，最终导致内存不够用</li>
+</ul>
+<h3 id="OOM-类型"><a href="#OOM-类型" class="headerlink" title="OOM 类型"></a>OOM 类型</h3><p>一般 OOM 分为三种类型</p>
+<ol>
+<li>java.lang.OutOfMemoryError: Java heap space。Java 堆内存溢出，此种情况最常见。</li>
+<li>java.lang.OutOfMemoryError: PermGen space。Java 永久代溢出，即方法区溢出了。</li>
+<li>java.lang.StackOverflowError。不会抛 OOM ERROR，但也是比较常见的 Java 内存溢出</li>
+</ol>
+<h3 id="分析-OOM-思路"><a href="#分析-OOM-思路" class="headerlink" title="分析 OOM 思路"></a>分析 OOM 思路</h3><p>接下来简单总结，在线上环境遇到 OOM 时，分析定位问题的思路。</p>
+<ol>
+<li>寻找 GC 日志和 dump 文件。<br>这里有个问题，就是不知道线上应用有没有开启打印 GC 日志和 dump 文件，这里寻找的思路如下</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1.查找对应的应用的 pid</span><br><span class="line">jps -v // 输出所有 Java 应用，找对应 pid，或使用 ps -ef | grep xxx 来寻找</span><br><span class="line"></span><br><span class="line">// 2.查看该 pid 启动应用时的 VM 参数</span><br><span class="line">jinfo -flags pid</span><br></pre></td></tr></table></figure>
+<p>获取到的 VM 参数，可关注如下几项参数的情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-XX:+HeapDumpOnOutOfMemoryError  // 是否开启 OOM 时输出 dump 文件，+ 表示开启</span><br><span class="line">-XX:HeapDumpPath=/data/logs      // 若配置该项，dump 文件输出到该路径下</span><br><span class="line"></span><br><span class="line">-XX:+PrintGCDetails              // 是否打印 GC 详细信息</span><br><span class="line">-XX:+PrintGCTimeStamps           // 是否打印 GC 时间戳(基准形式)</span><br><span class="line">-XX:+PrintGCDateStamps           // 是否打印 GC 时间戳(日期形式)</span><br><span class="line">-XX:+PrintTenuringDistribution   // 在每次新生代 GC 时，输出幸存区中对象的年龄分布</span><br><span class="line">-Xloggc:/data/logs               // 若配置该项，GC 日志输出到该路径下</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>若应用没有启用相应的参数输出日志，这里简单查看应用 JVM 内存使用情况的思路如下</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1.查看应用 GC 次数及平均每次 GC 时间</span><br><span class="line">jstat -gc pid 5000 // 每 5 秒显示一次 pid 的进程生成 GC 情况</span><br><span class="line"></span><br><span class="line">// 2.查看 JVM 堆内存不同代的具体使用情况</span><br><span class="line">jmap -heap pid</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>同时，应该在这时加上对应的参数，见上面 [获取到的 VM 参数] 示例。</li>
+</ol>
+<p>那么如何加上参数呢？</p>
+<p>有几个方法可以设置。首先是加在 Tomcat 的启动文件上（/bin/catalina.sh），如下新增配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPTS=&quot;-XX:+HeapDumpOnOutOfMemoryError ... &quot;</span><br></pre></td></tr></table></figure>
+<p>因为我们是一个 Tomcat 只部署一个应用，这样配置在 Tomcat 启动文件上，其粒度便只针对当前应用。</p>
+<p>除此之外，也可以配置在 Maven 启动文件上（%MAVEN_HOME%/bin/mvn），配置语法与上面类似。因为有多个应用使用同个 Maven，因此最后没有采用该种配置方法。</p>
+<p>配置完参数后，重新发布应用，若下次有 OOM 情况出现，便可分析对应日志来定位具体问题。</p>
+<h3 id="脑图"><a href="#脑图" class="headerlink" title="脑图"></a>脑图</h3><p><img src="https://upload.cc/i1/2019/06/10/EOnKxR.png" alt="OOM 分析.png"></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://blog.csdn.net/zlzlei/article/details/46471627" target="_blank" rel="noopener">Linux使用jstat命令查看jvm的GC情况</a><br><a href="https://mp.weixin.qq.com/s/Me1Y6Moir93EbHw_0qpA5w" target="_blank" rel="noopener">一次线上生产问题的全面复盘</a><br><a href="https://www.cnblogs.com/ThinkVenus/p/6805495.html" target="_blank" rel="noopener">什么是java OOM？如何分析及解决oom问题？</a></p>
+<p><strong>END</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是-OOM"><span class="toc-number">1.</span> <span class="toc-text">什么是 OOM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JVM-内存模型"><span class="toc-number">1.1.</span> <span class="toc-text">JVM 内存模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么会-OOM"><span class="toc-number">2.</span> <span class="toc-text">为什么会 OOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OOM-类型"><span class="toc-number">3.</span> <span class="toc-text">OOM 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析-OOM-思路"><span class="toc-number">4.</span> <span class="toc-text">分析 OOM 思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脑图"><span class="toc-number">5.</span> <span class="toc-text">脑图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文章"><span class="toc-number">6.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/10/oom-analysis-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/10/oom-analysis-1/&text=Java OOM 分析"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/10/oom-analysis-1/&is_video=false&description=Java OOM 分析"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java OOM 分析&body=Check out this article: http://yoursite.com/2019/06/10/oom-analysis-1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/10/oom-analysis-1/&title=Java OOM 分析"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/10/oom-analysis-1/&name=Java OOM 分析&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+       <!--  <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a> -->
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 陈加菲
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?0338d70f1784f1bdf5625252c8145f87";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
