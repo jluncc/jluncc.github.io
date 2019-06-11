@@ -6,19 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。Ja">
+    <meta name="description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型。 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。J">
 <meta name="keywords" content="JVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java OOM 分析">
 <meta property="og:url" content="http://yoursite.com/2019/06/10/oom-analysis-1/index.html">
 <meta property="og:site_name" content="慵懒的他">
-<meta property="og:description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。Ja">
+<meta property="og:description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型。 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。J">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload.cc/i1/2019/06/10/EOnKxR.png">
-<meta property="og:updated_time" content="2019-06-10T14:18:39.030Z">
+<meta property="og:updated_time" content="2019-06-11T13:04:58.698Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java OOM 分析">
-<meta name="twitter:description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。Ja">
+<meta name="twitter:description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型。 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。J">
 <meta name="twitter:image" content="https://upload.cc/i1/2019/06/10/EOnKxR.png">
     
     
@@ -148,7 +148,7 @@
 
   <div class="content" itemprop="articleBody">
     <h3 id="什么是-OOM"><a href="#什么是-OOM" class="headerlink" title="什么是 OOM"></a>什么是 OOM</h3><p>在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。</p>
-<p>而这个内存，指代的是 JVM 管理的内存模型</p>
+<p>而这个内存，指代的是 JVM 管理的内存模型。</p>
 <h4 id="JVM-内存模型"><a href="#JVM-内存模型" class="headerlink" title="JVM 内存模型"></a>JVM 内存模型</h4><p>JVM 在运行时管理的内存区域分别如下</p>
 <ol>
 <li>程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。</li>
@@ -167,7 +167,7 @@
 <ol>
 <li>java.lang.OutOfMemoryError: Java heap space。Java 堆内存溢出，此种情况最常见。</li>
 <li>java.lang.OutOfMemoryError: PermGen space。Java 永久代溢出，即方法区溢出了。</li>
-<li>java.lang.StackOverflowError。不会抛 OOM ERROR，但也是比较常见的 Java 内存溢出</li>
+<li>java.lang.StackOverflowError。不会抛 OOM ERROR，但也是比较常见的 Java 内存溢出。</li>
 </ol>
 <h3 id="分析-OOM-思路"><a href="#分析-OOM-思路" class="headerlink" title="分析 OOM 思路"></a>分析 OOM 思路</h3><p>接下来简单总结，在线上环境遇到 OOM 时，分析定位问题的思路。</p>
 <ol>
