@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="这一个月读了《RabbitMQ 实战指南》，自觉对 RabbitMQ 的认识比以前更深了一点，更系统了一点。 这篇文章主要记录了我在阅读前四章中整理的思维脑图。前四章的知识点，涵盖了 RabbitMQ 日常应用的大部分知识点，有必要系统的梳理一遍。 01 RabbitMQ 简介第一章简单介绍了相关概念，例如消息中间件，RabbitMQ 的含义。这是入门性质的概念，读多几遍，思考这种技术提出来要应对">
+<meta name="keywords" content="读书笔记,RabbitMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「读书笔记」RabbitMQ 实战指南前四章笔记">
+<meta property="og:url" content="http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/index.html">
+<meta property="og:site_name" content="慵懒的他">
+<meta property="og:description" content="这一个月读了《RabbitMQ 实战指南》，自觉对 RabbitMQ 的认识比以前更深了一点，更系统了一点。 这篇文章主要记录了我在阅读前四章中整理的思维脑图。前四章的知识点，涵盖了 RabbitMQ 日常应用的大部分知识点，有必要系统的梳理一遍。 01 RabbitMQ 简介第一章简单介绍了相关概念，例如消息中间件，RabbitMQ 的含义。这是入门性质的概念，读多几遍，思考这种技术提出来要应对">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload.cc/i1/2019/06/16/nrdeOw.png">
+<meta property="og:image" content="https://upload.cc/i1/2019/06/16/DqQhrH.png">
+<meta property="og:image" content="https://upload.cc/i1/2019/06/16/vtNFpQ.png">
+<meta property="og:image" content="https://upload.cc/i1/2019/06/16/w4JbKI.png">
+<meta property="og:updated_time" content="2019-06-16T06:02:29.899Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「读书笔记」RabbitMQ 实战指南前四章笔记">
+<meta name="twitter:description" content="这一个月读了《RabbitMQ 实战指南》，自觉对 RabbitMQ 的认识比以前更深了一点，更系统了一点。 这篇文章主要记录了我在阅读前四章中整理的思维脑图。前四章的知识点，涵盖了 RabbitMQ 日常应用的大部分知识点，有必要系统的梳理一遍。 01 RabbitMQ 简介第一章简单介绍了相关概念，例如消息中间件，RabbitMQ 的含义。这是入门性质的概念，读多几遍，思考这种技术提出来要应对">
+<meta name="twitter:image" content="https://upload.cc/i1/2019/06/16/nrdeOw.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/myBlog-favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/myBlog-favicon.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/myBlog-favicon.png">
+          
+        
+    
+    <!-- title -->
+    <title>「读书笔记」RabbitMQ 实战指南前四章笔记</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/06/13/binary-search/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+       <!--  <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li> -->
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&text=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&is_video=false&description=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=「读书笔记」RabbitMQ 实战指南前四章笔记&body=Check out this article: http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&name=「读书笔记」RabbitMQ 实战指南前四章笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-RabbitMQ-简介"><span class="toc-number">1.</span> <span class="toc-text">01 RabbitMQ 简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-RabbitMQ-入门"><span class="toc-number">2.</span> <span class="toc-text">02 RabbitMQ 入门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-客户端开发向导"><span class="toc-number">3.</span> <span class="toc-text">03 客户端开发向导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#04-RabbitMQ-进阶"><span class="toc-number">4.</span> <span class="toc-text">04 RabbitMQ 进阶</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        「读书笔记」RabbitMQ 实战指南前四章笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">陈加菲</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-16T05:38:47.000Z" itemprop="datePublished">2019-06-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/RabbitMQ/">RabbitMQ</a>, <a class="tag-link" href="/tags/读书笔记/">读书笔记</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这一个月读了《<a href="https://book.douban.com/subject/27591386/" target="_blank" rel="noopener">RabbitMQ 实战指南</a>》，自觉对 RabbitMQ 的认识比以前更深了一点，更系统了一点。</p>
+<p>这篇文章主要记录了我在阅读前四章中整理的思维脑图。前四章的知识点，涵盖了 RabbitMQ 日常应用的大部分知识点，有必要系统的梳理一遍。</p>
+<h3 id="01-RabbitMQ-简介"><a href="#01-RabbitMQ-简介" class="headerlink" title="01 RabbitMQ 简介"></a>01 RabbitMQ 简介</h3><p>第一章简单介绍了相关概念，例如消息中间件，RabbitMQ 的含义。这是入门性质的概念，读多几遍，思考这种技术提出来要应对的问题，其提供的解决方案，便容易深入理解。</p>
+<p><img src="https://upload.cc/i1/2019/06/16/nrdeOw.png" alt="01 RabbitMQ 简介"></p>
+<h3 id="02-RabbitMQ-入门"><a href="#02-RabbitMQ-入门" class="headerlink" title="02 RabbitMQ 入门"></a>02 RabbitMQ 入门</h3><p>第二章继续深入介绍 RabbitMQ 的核心概念，例如交换器、队列、绑定关系等，理解好这些核心概念，后面消息的发送接收等操作，不同特点的队列，便更容易掌握。同时这里也介绍了底层使用的 AMQP 协议。</p>
+<p><img src="https://upload.cc/i1/2019/06/16/DqQhrH.png" alt="02 RabbitMQ 入门.png"></p>
+<h3 id="03-客户端开发向导"><a href="#03-客户端开发向导" class="headerlink" title="03 客户端开发向导"></a>03 客户端开发向导</h3><p>在第三章里，详细介绍了生产者发送消息，到消费者消费消息的一整个流程，以及其中需要注意的小细节等，这一章较为重要，要加深理解。</p>
+<p><img src="https://upload.cc/i1/2019/06/16/vtNFpQ.png" alt="03 客户端开发向导.png"></p>
+<h3 id="04-RabbitMQ-进阶"><a href="#04-RabbitMQ-进阶" class="headerlink" title="04 RabbitMQ 进阶"></a>04 RabbitMQ 进阶</h3><p>第四章的进阶知识，是在第三章的基础上的。介绍了 TTL、DLX 等特性，以及生产者确认机制，持久化机制等等。这章里要理解一个重点，就是保证消息传输的可靠性，通俗点讲就是<strong>保证消息的 0 丢失</strong>。</p>
+<p>如何保证消息的 0 丢失呢，主要有 4 点注意</p>
+<ol>
+<li>消息生产者需要开启事务机制或 publish confirm 机制，确保消息可以可靠传输到 RabbitMQ 中</li>
+<li>消息生产者需要配合使用 mandatory 参数或者备份交换器来确保消息能够从交换器路由到队列，进而能够保存下来而不会被丢弃</li>
+<li>消息和队列都需要进行持久化处理，确保 RabbitMQ 服务器在遇到异常时不会造成消息丢失</li>
+<li>消费者在消费消息同时需要手动应答，确认已正确消费消息，避免在消费端引起不必要的消息丢失</li>
+</ol>
+<p><img src="https://upload.cc/i1/2019/06/16/w4JbKI.png" alt="04 RabbitMQ 进阶.png"></p>
+<p><strong>END</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-RabbitMQ-简介"><span class="toc-number">1.</span> <span class="toc-text">01 RabbitMQ 简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-RabbitMQ-入门"><span class="toc-number">2.</span> <span class="toc-text">02 RabbitMQ 入门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-客户端开发向导"><span class="toc-number">3.</span> <span class="toc-text">03 客户端开发向导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#04-RabbitMQ-进阶"><span class="toc-number">4.</span> <span class="toc-text">04 RabbitMQ 进阶</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&text=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&is_video=false&description=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=「读书笔记」RabbitMQ 实战指南前四章笔记&body=Check out this article: http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&title=「读书笔记」RabbitMQ 实战指南前四章笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/16/rabbitmq-reading-notes-1/&name=「读书笔记」RabbitMQ 实战指南前四章笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+       <!--  <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a> -->
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 陈加菲
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?0338d70f1784f1bdf5625252c8145f87";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
