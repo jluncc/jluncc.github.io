@@ -14,15 +14,15 @@
 <meta property="og:site_name" content="慵懒的他">
 <meta property="og:description" content="这一个月读了《RabbitMQ 实战指南》，自觉对 RabbitMQ 的认识比以前更深了一点，更系统了一点。 这篇文章主要记录了我在阅读前四章中整理的思维脑图。前四章的知识点，涵盖了 RabbitMQ 日常应用的大部分知识点，有必要系统的梳理一遍。 01 RabbitMQ 简介第一章简单介绍了相关概念，例如消息中间件，RabbitMQ 的含义。这是入门性质的概念，读多几遍，思考这种技术提出来要应对">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload.cc/i1/2019/06/16/nrdeOw.png">
-<meta property="og:image" content="https://upload.cc/i1/2019/06/16/DqQhrH.png">
-<meta property="og:image" content="https://upload.cc/i1/2019/06/16/vtNFpQ.png">
-<meta property="og:image" content="https://upload.cc/i1/2019/06/16/w4JbKI.png">
-<meta property="og:updated_time" content="2019-06-16T06:02:29.899Z">
+<meta property="og:image" content="http://yoursite.com/images/rabbitmq-reading-notes-1/01-RabbitMQ.png">
+<meta property="og:image" content="http://yoursite.com/images/rabbitmq-reading-notes-1/02-RabbitMQ.png">
+<meta property="og:image" content="http://yoursite.com/images/rabbitmq-reading-notes-1/03-RabbitMQ.png">
+<meta property="og:image" content="http://yoursite.com/images/rabbitmq-reading-notes-1/04-RabbitMQ.png">
+<meta property="og:updated_time" content="2019-06-23T15:01:50.768Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「读书笔记」RabbitMQ 实战指南前四章笔记">
 <meta name="twitter:description" content="这一个月读了《RabbitMQ 实战指南》，自觉对 RabbitMQ 的认识比以前更深了一点，更系统了一点。 这篇文章主要记录了我在阅读前四章中整理的思维脑图。前四章的知识点，涵盖了 RabbitMQ 日常应用的大部分知识点，有必要系统的梳理一遍。 01 RabbitMQ 简介第一章简单介绍了相关概念，例如消息中间件，RabbitMQ 的含义。这是入门性质的概念，读多几遍，思考这种技术提出来要应对">
-<meta name="twitter:image" content="https://upload.cc/i1/2019/06/16/nrdeOw.png">
+<meta name="twitter:image" content="http://yoursite.com/images/rabbitmq-reading-notes-1/01-RabbitMQ.png">
     
     
         
@@ -153,11 +153,11 @@
     <p>这一个月读了《<a href="https://book.douban.com/subject/27591386/" target="_blank" rel="noopener">RabbitMQ 实战指南</a>》，自觉对 RabbitMQ 的认识比以前更深了一点，更系统了一点。</p>
 <p>这篇文章主要记录了我在阅读前四章中整理的思维脑图。前四章的知识点，涵盖了 RabbitMQ 日常应用的大部分知识点，有必要系统的梳理一遍。</p>
 <h3 id="01-RabbitMQ-简介"><a href="#01-RabbitMQ-简介" class="headerlink" title="01 RabbitMQ 简介"></a>01 RabbitMQ 简介</h3><p>第一章简单介绍了相关概念，例如消息中间件，RabbitMQ 的含义。这是入门性质的概念，读多几遍，思考这种技术提出来要应对的问题，其提供的解决方案，便容易深入理解。</p>
-<p><img src="https://upload.cc/i1/2019/06/16/nrdeOw.png" alt="01 RabbitMQ 简介"></p>
+<p><img src="/images/rabbitmq-reading-notes-1/01-RabbitMQ.png" alt="01 RabbitMQ 简介"></p>
 <h3 id="02-RabbitMQ-入门"><a href="#02-RabbitMQ-入门" class="headerlink" title="02 RabbitMQ 入门"></a>02 RabbitMQ 入门</h3><p>第二章继续深入介绍 RabbitMQ 的核心概念，例如交换器、队列、绑定关系等，理解好这些核心概念，后面消息的发送接收等操作，不同特点的队列，便更容易掌握。同时这里也介绍了底层使用的 AMQP 协议。</p>
-<p><img src="https://upload.cc/i1/2019/06/16/DqQhrH.png" alt="02 RabbitMQ 入门.png"></p>
+<p><img src="/images/rabbitmq-reading-notes-1/02-RabbitMQ.png" alt="02 RabbitMQ 入门.png"></p>
 <h3 id="03-客户端开发向导"><a href="#03-客户端开发向导" class="headerlink" title="03 客户端开发向导"></a>03 客户端开发向导</h3><p>在第三章里，详细介绍了生产者发送消息，到消费者消费消息的一整个流程，以及其中需要注意的小细节等，这一章较为重要，要加深理解。</p>
-<p><img src="https://upload.cc/i1/2019/06/16/vtNFpQ.png" alt="03 客户端开发向导.png"></p>
+<p><img src="/images/rabbitmq-reading-notes-1/03-RabbitMQ.png" alt="03 客户端开发向导.png"></p>
 <h3 id="04-RabbitMQ-进阶"><a href="#04-RabbitMQ-进阶" class="headerlink" title="04 RabbitMQ 进阶"></a>04 RabbitMQ 进阶</h3><p>第四章的进阶知识，是在第三章的基础上的。介绍了 TTL、DLX 等特性，以及生产者确认机制，持久化机制等等。这章里要理解一个重点，就是保证消息传输的可靠性，通俗点讲就是<strong>保证消息的 0 丢失</strong>。</p>
 <p>如何保证消息的 0 丢失呢，主要有 4 点注意</p>
 <ol>
@@ -166,7 +166,7 @@
 <li>消息和队列都需要进行持久化处理，确保 RabbitMQ 服务器在遇到异常时不会造成消息丢失</li>
 <li>消费者在消费消息同时需要手动应答，确认已正确消费消息，避免在消费端引起不必要的消息丢失</li>
 </ol>
-<p><img src="https://upload.cc/i1/2019/06/16/w4JbKI.png" alt="04 RabbitMQ 进阶.png"></p>
+<p><img src="/images/rabbitmq-reading-notes-1/04-RabbitMQ.png" alt="04 RabbitMQ 进阶.png"></p>
 <p><strong>END</strong></p>
 
   </div>

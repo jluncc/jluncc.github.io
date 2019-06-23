@@ -14,12 +14,12 @@
 <meta property="og:site_name" content="慵懒的他">
 <meta property="og:description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型。 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。J">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload.cc/i1/2019/06/10/EOnKxR.png">
-<meta property="og:updated_time" content="2019-06-11T13:04:58.698Z">
+<meta property="og:image" content="http://yoursite.com/images/oom-analysis-1/oom-analysis.png">
+<meta property="og:updated_time" content="2019-06-23T14:56:09.223Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java OOM 分析">
 <meta name="twitter:description" content="什么是 OOM在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。 而这个内存，指代的是 JVM 管理的内存模型。 JVM 内存模型JVM 在运行时管理的内存区域分别如下  程序计数器。其作用是记录每个线程当前执行的字节码指令的位置，因为可能由多个线程并发执行不同的方法，所以程序计数器是每个线程私有的。 Java 虚拟机栈。J">
-<meta name="twitter:image" content="https://upload.cc/i1/2019/06/10/EOnKxR.png">
+<meta name="twitter:image" content="http://yoursite.com/images/oom-analysis-1/oom-analysis.png">
     
     
         
@@ -191,7 +191,7 @@
 <p>因为我们是一个 Tomcat 只部署一个应用，这样配置在 Tomcat 启动文件上，其粒度便只针对当前应用。</p>
 <p>除此之外，也可以配置在 Maven 启动文件上（%MAVEN_HOME%/bin/mvn），配置语法与上面类似。因为有多个应用使用同个 Maven，因此最后没有采用该种配置方法。</p>
 <p>配置完参数后，重新发布应用，若下次有 OOM 情况出现，便可分析对应日志来定位具体问题。</p>
-<h3 id="脑图"><a href="#脑图" class="headerlink" title="脑图"></a>脑图</h3><p><img src="https://upload.cc/i1/2019/06/10/EOnKxR.png" alt="OOM 分析.png"></p>
+<h3 id="脑图"><a href="#脑图" class="headerlink" title="脑图"></a>脑图</h3><p><img src="/images/oom-analysis-1/oom-analysis.png" alt="OOM 分析.png"></p>
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://blog.csdn.net/zlzlei/article/details/46471627" target="_blank" rel="noopener">Linux使用jstat命令查看jvm的GC情况</a><br><a href="https://mp.weixin.qq.com/s/Me1Y6Moir93EbHw_0qpA5w" target="_blank" rel="noopener">一次线上生产问题的全面复盘</a><br><a href="https://www.cnblogs.com/ThinkVenus/p/6805495.html" target="_blank" rel="noopener">什么是java OOM？如何分析及解决oom问题？</a></p>
 <p><strong>END</strong></p>
 
