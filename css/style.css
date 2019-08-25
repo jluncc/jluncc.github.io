@@ -456,7 +456,7 @@ body {
   font-display: swap;
   font-weight: 400;
   font-size: 14px;
-  font-family: "Menlo", "Meslo LG", monospace;
+  font-family: Vazir, sans-serif;
   line-height: 1.725;
   text-rendering: geometricPrecision;
   flex: 1;
@@ -606,7 +606,7 @@ body {
 }
 #header #nav ul {
   margin: 0;
-  padding: 0;
+  padding: 4px;
   list-style-type: none;
   line-height: 15px;
 }
@@ -622,7 +622,7 @@ body {
 }
 #header #nav ul li {
   display: inline-block;
-  margin-right: 7px;
+  margin-right: 10px;
   border-right: 1px dotted #cc2a41;
   vertical-align: middle;
 }
@@ -702,7 +702,7 @@ body {
 }
 #header-post ul li {
   display: inline-block;
-  margin-right: 7px;
+  margin-right: 10px;
   vertical-align: middle;
 }
 #header-post ul li:last-child {
@@ -1226,7 +1226,7 @@ article .content .caption {
 }
 #footer li {
   display: inline-block;
-  margin-right: 8px;
+  margin-right: 10px;
   border-right: 1px solid #666;
   vertical-align: middle;
 }
