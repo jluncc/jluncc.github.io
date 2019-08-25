@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="慵懒的他">
 <meta property="og:description" content="命名空间的理解首先我们需要对「命名空间」有基本的理解。 例子命名空间一般放置在 XML 文件的开始标签中，如下最基本的 Spring XML 配置文件中，xmlns，xmlns:xsi，xsi:schemaLocation 三项便是命名空间。 1234567&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&amp;lt;beans xmlns=&quot;http://www">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-11T15:14:37.261Z">
+<meta property="og:updated_time" content="2019-08-25T02:26:18.538Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring XML 配置文件中命名空间的理解">
 <meta name="twitter:description" content="命名空间的理解首先我们需要对「命名空间」有基本的理解。 例子命名空间一般放置在 XML 文件的开始标签中，如下最基本的 Spring XML 配置文件中，xmlns，xmlns:xsi，xsi:schemaLocation 三项便是命名空间。 1234567&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&amp;lt;beans xmlns=&quot;http://www">
@@ -151,8 +151,8 @@
 <h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>命名空间一般放置在 XML 文件的开始标签中，如下最基本的 Spring XML 配置文件中，xmlns，xmlns:xsi，xsi:schemaLocation 三项便是命名空间。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans </span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><p>简单来说，命名空间的作用是<strong>自动为 XML 标签补全前缀，避免标签命名冲突</strong> （因为开发者可自定义的标签名，存在冲突可能）。</p>
-<p>譬如，Spring 的 XML 配置文件，配置项都在 <beans> 标签中，但这时开发者如果自定义一个自己的标签，同样命名为 <beans>，便造成了冲突，XML 解析器无法分辨这些冲突的命名。</beans></beans></p>
-<p>此时命名空间便派上用场了。在 <beans> 开始标签中添加命名空间，实际上 XML 解析器会<strong>自动为该标签名补全前缀</strong>，以区别其他的标签，避免了命名的冲突。</beans></p>
+<p>譬如，Spring 的 XML 配置文件，配置项都在 &lt;beans> 标签中，但这时开发者如果自定义一个自己的标签，同样命名为 &lt;beans>，便造成了冲突，XML 解析器无法分辨这些冲突的命名。</p>
+<p>此时命名空间便派上用场了。在 &lt;beans> 开始标签中添加命名空间，实际上 XML 解析器会<strong>自动为该标签名补全前缀</strong>，以区别其他的标签，避免了命名的冲突。</p>
 <h3 id="Spring-XML-配置文件中的命名空间"><a href="#Spring-XML-配置文件中的命名空间" class="headerlink" title="Spring XML 配置文件中的命名空间"></a>Spring XML 配置文件中的命名空间</h3><p>有了上面的背景知识，我们来理解 Spring 的 XML 配置文件中命名空间的作用，也是大致相同：避免标签命名冲突。</p>
 <p>除此之外，我们再来看看 Spring 中的命名空间，见上面例子。<br>可以发现在最基本的配置中，含有 xmlns, xmlns:xsi, xsi:schemaLocation 三项，这三项是 Spring 最基本的命名空间，其含义如下：</p>
 <ol>
