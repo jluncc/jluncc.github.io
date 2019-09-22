@@ -99,9 +99,9 @@ JAVA_OPTS="-XX:+HeapDumpOnOutOfMemoryError ... "
 
 ### 参考文章
 
-[Linux使用jstat命令查看jvm的GC情况](https://blog.csdn.net/zlzlei/article/details/46471627)
+[Linux 使用 jstat 命令查看 jvm 的 GC 情况](https://blog.csdn.net/zlzlei/article/details/46471627)
 [一次线上生产问题的全面复盘](https://mp.weixin.qq.com/s/Me1Y6Moir93EbHw_0qpA5w)
-[什么是java OOM？如何分析及解决oom问题？](https://www.cnblogs.com/ThinkVenus/p/6805495.html)
+[什么是 java OOM？如何分析及解决 oom 问题？](https://www.cnblogs.com/ThinkVenus/p/6805495.html)
 
 **END**
 

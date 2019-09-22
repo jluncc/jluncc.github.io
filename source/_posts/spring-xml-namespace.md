@@ -12,7 +12,7 @@ tags:
 
 #### 例子
 
-命名空间一般放置在 XML 文件的开始标签中，如下最基本的 Spring XML 配置文件中，xmlns，xmlns:xsi，xsi:schemaLocation 三项便是命名空间。
+命名空间一般放置在 XML 文件的开始标签中，如下最基本的 Spring XML 配置文件中，xmlns / xmlns:xsi / xsi:schemaLocation 三项便是命名空间。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>

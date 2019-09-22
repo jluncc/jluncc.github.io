@@ -102,7 +102,7 @@ public class BinarySearch {
 
 ### 参考文章
 
-[Java实现二分查找-两种方式](https://blog.csdn.net/maoyuanming0806/article/details/78176957)
-[Java安全防溢出的两整数平均值算法](https://blog.csdn.net/as1072966956/article/details/79982623)
+[Java 实现二分查找-两种方式](https://blog.csdn.net/maoyuanming0806/article/details/78176957)
+[Java 安全防溢出的两整数平均值算法](https://blog.csdn.net/as1072966956/article/details/79982623)
 
 **END**
