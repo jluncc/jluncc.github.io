@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://yoursite.com/images/mysql-note/sql-join.jpg">
 <meta property="og:image" content="http://yoursite.com/images/mysql-note/explain分析列.png">
 <meta property="og:image" content="http://yoursite.com/images/mysql-note/explain-type.png">
-<meta property="og:updated_time" content="2019-11-16T09:23:45.069Z">
+<meta property="og:updated_time" content="2019-11-19T06:10:13.668Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 学习笔记">
 <meta name="twitter:description" content="最近看了尚硅谷 MySQL 视频，结合前段时间公司内部听的 MySQL 索引原理分享会，总结了一些 MySQL 的知识点，在这里整理输出，巩固记忆。这篇文章会按如下五部分内容进行总结：   MySQL 介绍 SQL 执行顺序 7 种 JOIN 类型 索引 explain   01 MySQL 介绍MySQL 是一个开源的关系型数据库，我们与数据库交互，一般的场景是把 SQL 发送给 MySQL，从">
@@ -78,6 +78,8 @@
     <br>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" href="/2019/12/01/steve-jobs-reading-notes/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2019/09/22/springboot-mybatis-multidatabase/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -331,7 +333,7 @@
 <p>7）select tables optimized away（不多）：在没有 group by 子句的情况下，基于索引优化 MIN/MAX 操作或者对于 MyISAM 存储引擎优化 count(*) 操作，不必等到执行阶段再进行计算，查询执行计划生成阶段即完成优化。 </p>
 <p>8）distinct（不多）：优化 distinct 操作，在找到第一匹配的元祖后即停止找同样值的动作</p>
 </blockquote>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.cnblogs.com/cdf-opensource-007/p/6502556.html" target="_blank" rel="noopener">mysql（1）—— 详解一条sql语句的执行过程</a><br><a href="https://juejin.im/post/5c3b22a1f265da61776c2bf2" target="_blank" rel="noopener">浅析MySQL InnoDB中的B+树索引</a><br><a href="https://www.cnblogs.com/maohuidong/p/10491563.html" target="_blank" rel="noopener">mysql const与eq_ref的区别</a></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.cnblogs.com/cdf-opensource-007/p/6502556.html" target="_blank" rel="noopener">mysql（1）—— 详解一条sql语句的执行过程</a><br><a href="https://juejin.im/post/5c3b22a1f265da61776c2bf2" target="_blank" rel="noopener">浅析MySQL InnoDB中的B+树索引</a><br><a href="https://www.cnblogs.com/maohuidong/p/10491563.html" target="_blank" rel="noopener">mysql const与eq_ref的区别</a><br><a href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html" target="_blank" rel="noopener">MySQL索引背后的数据结构及算法原理</a></p>
 <p><strong>END</strong></p>
 
   </div>
