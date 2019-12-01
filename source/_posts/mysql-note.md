@@ -316,6 +316,8 @@ key_len 显示的值为索引字段的最大可能长度，**并非实际使用�
 [mysql（1）—— 详解一条sql语句的执行过程](https://www.cnblogs.com/cdf-opensource-007/p/6502556.html)
 [浅析MySQL InnoDB中的B+树索引](https://juejin.im/post/5c3b22a1f265da61776c2bf2)
 [mysql const与eq_ref的区别](https://www.cnblogs.com/maohuidong/p/10491563.html)
+[MySQL索引背后的数据结构及算法原理](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)
+
 
 
 
