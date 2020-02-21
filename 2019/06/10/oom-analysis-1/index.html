@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<!DOCTYPE html><html lang="zh"><head><meta name="generator" content="Hexo 3.8.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -113,7 +111,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -123,9 +121,9 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">陈加菲</span>
-      </span>&nbsp
+      </span> 
       
     <div class="postdate">
       
@@ -149,7 +147,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="什么是-OOM"><a href="#什么是-OOM" class="headerlink" title="什么是 OOM"></a>什么是 OOM</h3><p>在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。</p>
+    <meta name="generator" content="Hexo 3.8.0"><h3 id="什么是-OOM"><a href="#什么是-OOM" class="headerlink" title="什么是 OOM"></a>什么是 OOM</h3><p>在 Java 中，OOM 是 java.lang.OutOfMemoryError 异常的缩写，简单来说是应用的内存用完了。</p>
 <p>而这个内存，指代的是 JVM 管理的内存模型。</p>
 <h4 id="JVM-内存模型"><a href="#JVM-内存模型" class="headerlink" title="JVM 内存模型"></a>JVM 内存模型</h4><p>JVM 在运行时管理的内存区域分别如下</p>
 <ol>
@@ -175,19 +173,19 @@
 <ol>
 <li>寻找 GC 日志和 dump 文件。<br>这里有个问题，就是不知道线上应用有没有开启打印 GC 日志和 dump 文件，这里寻找的思路如下</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1.查找对应的应用的 pid</span><br><span class="line">jps -v // 输出所有 Java 应用，找对应 pid，或使用 ps -ef | grep xxx 来寻找</span><br><span class="line"></span><br><span class="line">// 2.查看该 pid 启动应用时的 VM 参数</span><br><span class="line">jinfo -flags pid</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1.查找对应的应用的 pid</span><br><span class="line">jps -v // 输出所有 Java 应用，找对应 pid，或使用 ps -ef | grep xxx 来寻找</span><br><span class="line"></span><br><span class="line">// 2.查看该 pid 启动应用时的 VM 参数</span><br><span class="line">jinfo -flags pid</span><br></pre></td></tr></tbody></table></figure>
 <p>获取到的 VM 参数，可关注如下几项参数的情况</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-XX:+HeapDumpOnOutOfMemoryError  // 是否开启 OOM 时输出 dump 文件，+ 表示开启</span><br><span class="line">-XX:HeapDumpPath=/data/logs      // 若配置该项，dump 文件输出到该路径下</span><br><span class="line"></span><br><span class="line">-XX:+PrintGCDetails              // 是否打印 GC 详细信息</span><br><span class="line">-XX:+PrintGCTimeStamps           // 是否打印 GC 时间戳(基准形式)</span><br><span class="line">-XX:+PrintGCDateStamps           // 是否打印 GC 时间戳(日期形式)</span><br><span class="line">-XX:+PrintTenuringDistribution   // 在每次新生代 GC 时，输出幸存区中对象的年龄分布</span><br><span class="line">-Xloggc:/data/logs               // 若配置该项，GC 日志输出到该路径下</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-XX:+HeapDumpOnOutOfMemoryError  // 是否开启 OOM 时输出 dump 文件，+ 表示开启</span><br><span class="line">-XX:HeapDumpPath=/data/logs      // 若配置该项，dump 文件输出到该路径下</span><br><span class="line"></span><br><span class="line">-XX:+PrintGCDetails              // 是否打印 GC 详细信息</span><br><span class="line">-XX:+PrintGCTimeStamps           // 是否打印 GC 时间戳(基准形式)</span><br><span class="line">-XX:+PrintGCDateStamps           // 是否打印 GC 时间戳(日期形式)</span><br><span class="line">-XX:+PrintTenuringDistribution   // 在每次新生代 GC 时，输出幸存区中对象的年龄分布</span><br><span class="line">-Xloggc:/data/logs               // 若配置该项，GC 日志输出到该路径下</span><br></pre></td></tr></tbody></table></figure>
 <ol start="2">
 <li>若应用没有启用相应的参数输出日志，这里简单查看应用 JVM 内存使用情况的思路如下</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1.查看应用 GC 次数及平均每次 GC 时间</span><br><span class="line">jstat -gc pid 5000 // 每 5 秒显示一次 pid 的进程生成 GC 情况</span><br><span class="line"></span><br><span class="line">// 2.查看 JVM 堆内存不同代的具体使用情况</span><br><span class="line">jmap -heap pid</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1.查看应用 GC 次数及平均每次 GC 时间</span><br><span class="line">jstat -gc pid 5000 // 每 5 秒显示一次 pid 的进程生成 GC 情况</span><br><span class="line"></span><br><span class="line">// 2.查看 JVM 堆内存不同代的具体使用情况</span><br><span class="line">jmap -heap pid</span><br></pre></td></tr></tbody></table></figure>
 <ol start="3">
 <li>同时，应该在这时加上对应的参数，见上面 [获取到的 VM 参数] 示例。</li>
 </ol>
 <p>那么如何加上参数呢？</p>
 <p>有几个方法可以设置。首先是加在 Tomcat 的启动文件上（/bin/catalina.sh），如下新增配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPTS=&quot;-XX:+HeapDumpOnOutOfMemoryError ... &quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPTS="-XX:+HeapDumpOnOutOfMemoryError ... "</span><br></pre></td></tr></tbody></table></figure>
 <p>因为我们是一个 Tomcat 只部署一个应用，这样配置在 Tomcat 启动文件上，其粒度便只针对当前应用。</p>
 <p>除此之外，也可以配置在 Maven 启动文件上（%MAVEN_HOME%/bin/mvn），配置语法与上面类似。因为有多个应用使用同个 Maven，因此最后没有采用该种配置方法。</p>
 <p>配置完参数后，重新发布应用，若下次有 OOM 情况出现，便可分析对应日志来定位具体问题。</p>
@@ -251,7 +249,7 @@
         
         <footer id="footer">
   <div class="footer-left">
-    Copyright &nbsp;&copy;&nbsp; 2019 - 2020 &nbsp; 陈加菲
+    Copyright  ©  2019 - 2020   陈加菲
   </div>
   <div class="footer-right">
     <nav>
@@ -298,5 +296,6 @@
 <!-- Disqus Comments -->
 
 
-</body>
-</html>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

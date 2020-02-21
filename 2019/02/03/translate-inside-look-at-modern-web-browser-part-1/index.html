@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head><meta name="generator" content="Hexo 3.8.0">
+<!DOCTYPE html><html lang="zh"><head><meta name="generator" content="Hexo 3.8.0">
     <!-- so meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -122,7 +120,7 @@
     
     <div class="content index py4">
         
-        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
@@ -132,9 +130,9 @@
 
 
     <div class="meta">
-      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">陈加菲</span>
-      </span>&nbsp
+      </span> 
       
     <div class="postdate">
       
@@ -158,7 +156,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <blockquote>
+    <meta name="generator" content="Hexo 3.8.0"><blockquote>
 <p>原文链接：<a href="https://developers.google.com/web/updates/2018/09/inside-browser-part1" target="_blank" rel="noopener">https://developers.google.com/web/updates/2018/09/inside-browser-part1</a>  </p>
 <p>在这篇译文中，我对 web, Chrome 等常见单词作了保留，一些术语的中文翻译参考了维基百科，而一些句子的翻译则参考了 Google 翻译。 </p>
 </blockquote>
@@ -184,7 +182,7 @@
 <p><img src="/images/translate-inside-look-at-modern-web-browser-part-1/browser-arch.png" alt="图 7：不同浏览器架构中的进程/线程图"><br>图 7：不同浏览器架构中的进程/线程图  </p>
 <p>这里要注意的地方是这些不同的架构是实现的细节，关于如何构建一个 web 浏览器是没有标准规范的。一个浏览器的实现方法可能与另一个浏览器完全不同。  </p>
 <p>在这个博客系列，我们将使用下图中描述的 Chrome 最新架构。  </p>
-<p>最上方是浏览器进程与其他负责应用程序不同部分的进程间的协作。对于渲染器进程，多个进程被创建和分配给每一个 tab。直到最近，Chrome 尽可能为每一个 tab 分配一个进程，如今它尝试为每一个站点分配属于自己的进程，包括 iframes（见 <a href="https://developers.google.com/web/updates/2018/09/inside-browser-part1?utm_source=wanqu.co&amp;utm_campaign=Wanqu+Daily&amp;utm_medium=website#site-isolation" target="_blank" rel="noopener">Site Isolation</a>）  </p>
+<p>最上方是浏览器进程与其他负责应用程序不同部分的进程间的协作。对于渲染器进程，多个进程被创建和分配给每一个 tab。直到最近，Chrome 尽可能为每一个 tab 分配一个进程，如今它尝试为每一个站点分配属于自己的进程，包括 iframes（见 <a href="https://developers.google.com/web/updates/2018/09/inside-browser-part1?utm_source=wanqu.co&utm_campaign=Wanqu+Daily&utm_medium=website#site-isolation" target="_blank" rel="noopener">Site Isolation</a>）  </p>
 <p><img src="/images/translate-inside-look-at-modern-web-browser-part-1/browser-arch2.png" alt="图 8：Chrome 的多进程架构图。渲染器进程下显示多个图层，表示 Chrome 为每一个 tab 运行多个渲染器进程"><br>图 8：Chrome 的多进程架构图。渲染器进程下显示多个图层，表示 Chrome 为每一个 tab 运行多个渲染器进程。  </p>
 <h2 id="每个进程掌控什么？"><a href="#每个进程掌控什么？" class="headerlink" title="每个进程掌控什么？"></a>每个进程掌控什么？</h2><p>下面的表格介绍了每个 Chrome 进程以及它们掌控什么：  </p>
 <table>
@@ -284,7 +282,7 @@
         
         <footer id="footer">
   <div class="footer-left">
-    Copyright &nbsp;&copy;&nbsp; 2019 - 2020 &nbsp; 陈加菲
+    Copyright  ©  2019 - 2020   陈加菲
   </div>
   <div class="footer-right">
     <nav>
@@ -331,5 +329,6 @@
 <!-- Disqus Comments -->
 
 
-</body>
-</html>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>
