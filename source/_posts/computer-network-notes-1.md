@@ -11,7 +11,7 @@ tags:
 
 ### 一、OSI 模型及 TCP/IP 模型
 
-![OSI 七层及 TCP / IP 五层协议](/images/computer-network-notes-1/osi-7-layer-tcpip-5-layer-model.png "OSI 七层及 TCP / IP 五层协议")
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/osi-7-layer-model-data.png" alt="OSI 七层及 TCP / IP 五层协议" title="OSI 七层及 TCP / IP 五层协议" style="zoom:40%;" />
 
 计算机网络中常见的有 OSI 七层模型及 TCP / IP 五层模型。前段时间听同事讨论，公司里不同服务的交互是用什么协议，使用七层还是五层模型？这才意识到自己原先光记着这些东西，没有仔细思考过两者的区别。典型的学生思维。
 
@@ -19,7 +19,7 @@ tags:
 
 所以**当层次越少，这种封装，解封还原的处理也越少，传输耗时，复杂度相应减少**。因此追求更快的交互时，往往会直接用传输层 TCP / UDP 协议，而不是用应用层 HTTP 协议。
 
-![OSI 七层数据模型图](/images/computer-network-notes-1/osi-7-layer-model-data.png "OSI 七层数据模型图")
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/osi-7-layer-tcpip-5-layer-model.png" alt="OSI 七层数据模型图" title="OSI 七层数据模型图" style="zoom:100%;" />
 
 ### 二、OSI 为什么分层
 
@@ -111,7 +111,7 @@ UDP 同样是传输层协议，与 TCP / IP 不同的是，UDP 是**面向无连
 
 TCP 建立连接要进行三次握手，而断开连接要进行四次。先来看看三次握手的图示（图片来源：[TCP 协议](https://hit-alibaba.github.io/interview/basic/network/TCP.html)）：
 
-![TCP 三次握手](/images/computer-network-notes-1/tcp-connection-made-three-way-handshake.png "TCP 三次握手")
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/tcp-connection-made-three-way-handshake.png" alt="TCP 三次握手" title="TCP 三次握手" style="zoom:80%;" />
 
 为何要进行三次，而不是两次？简单说说我的理解（这篇文章讲解三次握手很生动：[TCP/IP 之 大明王朝邮差](https://mp.weixin.qq.com/s/SiHkaWeV0JSmdv5s0jqWgg)）。
 
@@ -125,7 +125,7 @@ TCP 建立连接要进行三次握手，而断开连接要进行四次。先来�
 
 至此两方都确认了对方不会再传输数据，连接终止。图示如下：
 
-![TCP 四次挥手](/images/computer-network-notes-1/tcp-connection-closed-four-way-handshake.png "TCP 四次挥手")
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/tcp-connection-closed-four-way-handshake.png" alt="TCP 四次挥手" title="TCP 四次挥手" style="zoom:80%;" />
 
 
 ### 参考文章

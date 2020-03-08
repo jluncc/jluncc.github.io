@@ -18,9 +18,9 @@ tags:
 
 > 我的工程代码链接：[springboot-mybatis-multidatabase](https://github.com/jluncc/my-springboot-demo/tree/master/springboot-mybatis-multidatabase)，你也可以从中获取我使用的数据脚本。
 
-![测试数据1-student表](/images/springboot-mybatis-multidatabase/测试数据1.png)
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-1.png" alt="测试数据1-student表" title="测试数据1-student表" style="zoom:61%;" />
 
-![测试数据2-category表](/images/springboot-mybatis-multidatabase/测试数据2.png)
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-2.png" alt="测试数据2-category表" title="测试数据2-category表" style="zoom:60%;" />
 
 
 
@@ -32,7 +32,7 @@ tags:
 
 > 实际使用中，下面介绍的方法也测试过 MySQL 与 PostgreSQL 混用，同样正常运行。若接入其他数据库，需在 pom 中接入相应的依赖。
 
-```
+```xml
 <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -88,7 +88,7 @@ tags:
 2. Mybatis 配置。这里每个数据源单独配置了一份 Mybatis 的配置信息，后续会说明这样做的原因；
 3. 服务暴露的端口 
 
-```
+```yml
 mybatis:
   configuration:
     db1:
@@ -209,7 +209,7 @@ public interface StudentMapper {
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.db1.StudentMapper">
     <sql id="column_list">id, name, age, create_time, update_time</sql>
 
@@ -276,11 +276,11 @@ public class TestController {
 
 到这里代码编写完毕。启动项目，打开  [http://localhost:8090/swagger-ui.html](http://localhost:8090/swagger-ui.html%EF%BC%8C%E5%8F%AF%E7%9C%8B%E5%88%B0)，可看到 swagger 自动生成的接口文档，我们进行测试调用 /api/test/student/1，获取数据与数据库一致。
 
-![结果1](/images/springboot-mybatis-multidatabase/结果1.png)
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/result-1.png" alt="结果1" title="结果1" style="zoom:100%;" />
 
 同样，根据该思路我们编写另一数据源 db2 的相应代码，最后测试调用 /api/test/category/1，亦正常获取到数据
 
-![结果2](/images/springboot-mybatis-multidatabase/结果2.png)
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/result-2.png" alt="结果2" title="结果2" style="zoom:100%;" />
 
 
 

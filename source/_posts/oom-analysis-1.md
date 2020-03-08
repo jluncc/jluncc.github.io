@@ -95,7 +95,7 @@ JAVA_OPTS="-XX:+HeapDumpOnOutOfMemoryError ... "
 
 ### 脑图
 
-![OOM 分析.png](/images/oom-analysis-1/oom-analysis.png)
+<img src="http://q6q6q9uu8.bkt.clouddn.com/images/oom-analysis-1oom-analysis.png" alt="OOM 分析.png" title="OOM 分析.png" style="zoom:100%;" />
 
 ### 参考文章
 

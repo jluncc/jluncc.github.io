@@ -82,3 +82,4 @@ deploy:
   type: git 
   repo: https://github.com/jluncc/jluncc.github.io.git
   branch: master
+
