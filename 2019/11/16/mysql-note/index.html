@@ -14,16 +14,16 @@
 <meta property="og:site_name" content="慵懒的他">
 <meta property="og:description" content="最近看了尚硅谷 MySQL 视频，结合前段时间公司内部听的 MySQL 索引原理分享会，总结了一些 MySQL 的知识点，在这里整理输出，巩固记忆。这篇文章会按如下五部分内容进行总结：   MySQL 介绍 SQL 执行顺序 7 种 JOIN 类型 索引 explain   01 MySQL 介绍MySQL 是一个开源的关系型数据库，我们与数据库交互，一般的场景是把 SQL 发送给 MySQL，从">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/images/mysql-note/MySQL架构图.png">
-<meta property="og:image" content="http://yoursite.com/images/mysql-note/SQL解析注意点鱼刺图.png">
-<meta property="og:image" content="http://yoursite.com/images/mysql-note/sql-join.jpg">
-<meta property="og:image" content="http://yoursite.com/images/mysql-note/explain分析列.png">
-<meta property="og:image" content="http://yoursite.com/images/mysql-note/explain-type.png">
-<meta property="og:updated_time" content="2019-11-19T06:10:13.668Z">
+<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/mysql-architecture.png">
+<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/sql-fishbone-illustration.png">
+<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/sql-join.jpg">
+<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/explain-column.png">
+<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/explain-type.png">
+<meta property="og:updated_time" content="2020-03-08T11:03:22.603Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 学习笔记">
 <meta name="twitter:description" content="最近看了尚硅谷 MySQL 视频，结合前段时间公司内部听的 MySQL 索引原理分享会，总结了一些 MySQL 的知识点，在这里整理输出，巩固记忆。这篇文章会按如下五部分内容进行总结：   MySQL 介绍 SQL 执行顺序 7 种 JOIN 类型 索引 explain   01 MySQL 介绍MySQL 是一个开源的关系型数据库，我们与数据库交互，一般的场景是把 SQL 发送给 MySQL，从">
-<meta name="twitter:image" content="http://yoursite.com/images/mysql-note/MySQL架构图.png">
+<meta name="twitter:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/mysql-architecture.png">
     
     
         
@@ -164,7 +164,7 @@
 </ol>
 </blockquote>
 <h2 id="01-MySQL-介绍"><a href="#01-MySQL-介绍" class="headerlink" title="01 MySQL 介绍"></a>01 MySQL 介绍</h2><p>MySQL 是一个开源的关系型数据库，我们与数据库交互，一般的场景是把 SQL 发送给 MySQL，从 MySQL 中得到处理的结果。先来看一张架构图：</p>
-<p><img src="/images/mysql-note/MySQL架构图.png" alt="MySQL 架构图"></p>
+<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/mysql-architecture.png" alt="MySQL 架构图" title="MySQL 架构图" style="zoom:120%;"></p>
 <p>由上至下依次为：</p>
 <ol>
 <li>连接层。这里主要跟客户端打交道，因此会暴露有不同语言的连接服务，同时维护客户端的连接池。</li>
@@ -217,7 +217,7 @@
 </ol>
 </blockquote>
 <p>此外，我们再看一张图，这张图说明了，我们在写 SQL 语句的每个步骤中，需要注意的问题：</p>
-<p><img src="/images/mysql-note/SQL解析注意点鱼刺图.png" alt="SQL 解析注意点鱼刺图"></p>
+<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/sql-fishbone-illustration.png" alt="SQL 解析注意点鱼刺图" title="SQL 解析注意点鱼刺图" style="zoom:100%;"></p>
 <blockquote>
 <ol>
 <li>在 from 加载表的时候，避免出现笛卡尔积</li>
@@ -228,7 +228,7 @@
 </ol>
 </blockquote>
 <h2 id="03-7-种-JOIN-类型"><a href="#03-7-种-JOIN-类型" class="headerlink" title="03 7 种 JOIN 类型"></a>03 7 种 JOIN 类型</h2><p>SQL 联表中，主要有 7 中联表类型。</p>
-<p><img src="/images/mysql-note/sql-join.jpg" alt="7 种 SQL JOIN 类型"></p>
+<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/sql-join.jpg" alt="7 种 SQL JOIN 类型" title="7 种 SQL JOIN 类型" style="zoom:100%;"></p>
 <p>注意的一点是，MySQL 中不支持 full outer join，因此要实现 full outer join（全连接），可使用 union（或 union all）代替。</p>
 <h2 id="04-索引"><a href="#04-索引" class="headerlink" title="04 索引"></a>04 索引</h2><h3 id="索引是什么"><a href="#索引是什么" class="headerlink" title="索引是什么"></a>索引是什么</h3><p>MySQL 官方对索引的定义是：</p>
 <blockquote>
@@ -278,7 +278,7 @@
 <li>每张表有多少行被优化器查询</li>
 </ul>
 <p>运行 explain，可以获取如下多列的信息，这些信息包含了上面几个方面的内容</p>
-<p><img src="/images/mysql-note/explain分析列.png" alt="explain 分析列"></p>
+<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/explain-column.png" alt="explain 分析列" title="explain 分析列" style="zoom:100%;"></p>
 <h3 id="1）id"><a href="#1）id" class="headerlink" title="1）id"></a>1）id</h3><p>select 查询的序列号，包含一组数字，表示查询中执行 select 子句或操作表的顺序。<strong>可以解决表的读取顺序问题</strong>。</p>
 <blockquote>
 <p>1）id 相同的情况下，执行顺序从上往下执行</p>
@@ -301,7 +301,7 @@
 <p>system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL</p>
 </blockquote>
 <p>一般来说要优化到 range 级别，最好是到 ref 级别。</p>
-<p><img src="/images/mysql-note/explain-type.png" alt="type 类型"></p>
+<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/explain-type.png" alt="type 类型" title="type 类型" style="zoom:100%;"></p>
 <blockquote>
 <p>1）system：表只有一行记录（等于系统表），这是 const 类型的特例，平时不会出现，这个可以忽略不计</p>
 <p>2）const：表示通过索引一次就找到了，const 用于比较 primary key 或者 unique 索引。因为只匹配一行数据，所以很快，如将主键置于 where 列表中，MySQL 就能将该查询转换成一个常量</p>
