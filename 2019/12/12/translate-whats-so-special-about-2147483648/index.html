@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="慵懒的他">
 <meta property="og:description" content="在做 LeetCode  7. 整数反转 时发现 2147483648 这个神奇的数字，我使用的是 Java，判断 -(-2147483648)==(-2147483648) 时，得到结果是 true，因此决定一探究竟（文章最后简单说明了为何这个判断为 true）。 浏览资料时发现了这篇文章 What’s so special about 2147483648?，觉得有趣，于是决定翻译下来。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-12T14:26:20.846Z">
+<meta property="og:updated_time" content="2020-03-21T16:38:01.313Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「译文」为什么 2147483648 如此特别">
 <meta name="twitter:description" content="在做 LeetCode  7. 整数反转 时发现 2147483648 这个神奇的数字，我使用的是 Java，判断 -(-2147483648)==(-2147483648) 时，得到结果是 true，因此决定一探究竟（文章最后简单说明了为何这个判断为 true）。 浏览资料时发现了这篇文章 What’s so special about 2147483648?，觉得有趣，于是决定翻译下来。">
@@ -103,7 +103,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么-2147483648-如此特别"><span class="toc-number">1.</span> <span class="toc-text">为什么 2147483648 如此特别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#后记"><span class="toc-number">1.1.</span> <span class="toc-text">后记</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么-2147483648-如此特别"><span class="toc-number">1.</span> <span class="toc-text">为什么 2147483648 如此特别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">2.</span> <span class="toc-text">后记</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -170,7 +170,7 @@
 <p>Y2K 确实是一个问题，因为众多应用将年份存储为 2 位数字段格式，一旦 2000 年开始，看上去将会与 1900 年相似。然而，尽管有暴风雨般的问题，我们进入 21 世纪的时候，许多人期望的问题却更少了。</p>
 <p>但 2038 问题要花费更多的时间和关注，因为它涉及到日期的秒精度的内部表示方法。而且这些日期和时间危害着许多流程和设备。不过现在只是 1449012345，我们还有时间。</p>
 <hr>
-<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a><strong>后记</strong></h4><p>现在再来回答为什么 Java 中 -(-2147483648)==(-2147483648)。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a><strong>后记</strong></h3><p>现在再来回答为什么 Java 中 -(-2147483648)==(-2147483648)。</p>
 <p>其实不单是 Java，任何 32 位字节存储整数的系统都存在这个问题，因为在计算机内部，整数是以二进制形式存储的，而要想让二进制数值表达「负数」的概念，就需要一位标志位。计算机中采用了上文所述的最高位标志位。</p>
 <p>Java int 类型整数最多占用 32 位字节空间，约定最小的负数 -2147483648，二进制表示为 1000…（符号位 1  后跟 31 个 0），且其相反数同样为 1000…（符号位 1  后跟 31 个 0），你可以试试下面的代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> testValue = -<span class="number">2147483648</span>;</span><br><span class="line">String binaryString = Integer.toBinaryString(testValue);</span><br><span class="line">String binaryString2 = Integer.toBinaryString(-testValue);</span><br><span class="line">System.out.println(binaryString);</span><br><span class="line">System.out.println(binaryString2);</span><br></pre></td></tr></table></figure>
@@ -202,7 +202,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么-2147483648-如此特别"><span class="toc-number">1.</span> <span class="toc-text">为什么 2147483648 如此特别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#后记"><span class="toc-number">1.1.</span> <span class="toc-text">后记</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么-2147483648-如此特别"><span class="toc-number">1.</span> <span class="toc-text">为什么 2147483648 如此特别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">2.</span> <span class="toc-text">后记</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
