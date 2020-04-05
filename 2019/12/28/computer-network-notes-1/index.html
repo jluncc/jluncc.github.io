@@ -14,15 +14,15 @@
 <meta property="og:site_name" content="慵懒的他">
 <meta property="og:description" content="最近整理了之前学习计算机网络的笔记，这里简单总结一篇博客，备忘。  一、OSI 模型及 TCP/IP 模型 计算机网络中常见的有 OSI 七层模型及 TCP / IP 五层模型。前段时间听同事讨论，公司里不同服务的交互是用什么协议，使用七层还是五层模型？这才意识到自己原先光记着这些东西，没有仔细思考过两者的区别。典型的学生思维。 简单说我的理解，不同层需要封装不同的头部信息，来处理该层负责的事情">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/osi-7-layer-model-data.png">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/osi-7-layer-tcpip-5-layer-model.png">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/tcp-connection-made-three-way-handshake.png">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/tcp-connection-closed-four-way-handshake.png">
-<meta property="og:updated_time" content="2020-03-08T10:52:06.543Z">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/osi-7-layer-model-data.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/osi-7-layer-tcpip-5-layer-model.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/tcp-connection-made-three-way-handshake.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/tcp-connection-closed-four-way-handshake.png">
+<meta property="og:updated_time" content="2020-04-05T03:41:01.692Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机网络学习笔记">
 <meta name="twitter:description" content="最近整理了之前学习计算机网络的笔记，这里简单总结一篇博客，备忘。  一、OSI 模型及 TCP/IP 模型 计算机网络中常见的有 OSI 七层模型及 TCP / IP 五层模型。前段时间听同事讨论，公司里不同服务的交互是用什么协议，使用七层还是五层模型？这才意识到自己原先光记着这些东西，没有仔细思考过两者的区别。典型的学生思维。 简单说我的理解，不同层需要封装不同的头部信息，来处理该层负责的事情">
-<meta name="twitter:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/osi-7-layer-model-data.png">
+<meta name="twitter:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/osi-7-layer-model-data.png">
     
     
         
@@ -155,11 +155,11 @@
     <blockquote>
 <p>最近整理了之前学习计算机网络的笔记，这里简单总结一篇博客，备忘。</p>
 </blockquote>
-<h3 id="一、OSI-模型及-TCP-IP-模型"><a href="#一、OSI-模型及-TCP-IP-模型" class="headerlink" title="一、OSI 模型及 TCP/IP 模型"></a>一、OSI 模型及 TCP/IP 模型</h3><p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/osi-7-layer-model-data.png" alt="OSI 七层及 TCP / IP 五层协议" title="OSI 七层及 TCP / IP 五层协议" style="zoom:40%;"></p>
+<h3 id="一、OSI-模型及-TCP-IP-模型"><a href="#一、OSI-模型及-TCP-IP-模型" class="headerlink" title="一、OSI 模型及 TCP/IP 模型"></a>一、OSI 模型及 TCP/IP 模型</h3><p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/osi-7-layer-model-data.png" alt="OSI 七层及 TCP / IP 五层协议" title="OSI 七层及 TCP / IP 五层协议" style="zoom:40%;"></p>
 <p>计算机网络中常见的有 OSI 七层模型及 TCP / IP 五层模型。前段时间听同事讨论，公司里不同服务的交互是用什么协议，使用七层还是五层模型？这才意识到自己原先光记着这些东西，没有仔细思考过两者的区别。典型的学生思维。</p>
 <p>简单说我的理解，不同层需要封装不同的头部信息，来处理该层负责的事情（第二部分再说对分层的理解），见下图 OSI 七层数据模型图。例如在传输层，数据会在上层基础里封装 TCP / UDP 头，再向下传递到网络层，再进一步封装 IP 包头。</p>
 <p>所以<strong>当层次越少，这种封装，解封还原的处理也越少，传输耗时，复杂度相应减少</strong>。因此追求更快的交互时，往往会直接用传输层 TCP / UDP 协议，而不是用应用层 HTTP 协议。</p>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/osi-7-layer-tcpip-5-layer-model.png" alt="OSI 七层数据模型图" title="OSI 七层数据模型图" style="zoom:100%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/osi-7-layer-tcpip-5-layer-model.png" alt="OSI 七层数据模型图" title="OSI 七层数据模型图" style="zoom:100%;"></p>
 <h3 id="二、OSI-为什么分层"><a href="#二、OSI-为什么分层" class="headerlink" title="二、OSI 为什么分层"></a>二、OSI 为什么分层</h3><blockquote>
 <p>这一段是之前看《<a href="https://book.douban.com/subject/24737674/" target="_blank" rel="noopener">图解 TCP/IP</a>》时的一点心得，由于种种原因，书还没看完，比较可惜。</p>
 </blockquote>
@@ -219,14 +219,14 @@
 <h4 id="TCP-IP-介绍"><a href="#TCP-IP-介绍" class="headerlink" title="TCP / IP 介绍"></a>TCP / IP 介绍</h4><p>TCP 是<strong>面向连接的传输层协议</strong>，它提供<strong>可靠</strong>的报文传输和对上层应用的连接服务。为此，除了基本的数据传输外，它还有可靠性保证、流量控制、多路复用、优先权和安全性控制等功能。</p>
 <p>UDP 同样是传输层协议，与 TCP / IP 不同的是，UDP 是<strong>面向无连接的不可靠传输的协议</strong>，主要用于不需要 TCP 的排序和流量控制等功能的应用程序。</p>
 <h5 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h5><p>TCP 建立连接要进行三次握手，而断开连接要进行四次。先来看看三次握手的图示（图片来源：<a href="https://hit-alibaba.github.io/interview/basic/network/TCP.html" target="_blank" rel="noopener">TCP 协议</a>）：</p>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/tcp-connection-made-three-way-handshake.png" alt="TCP 三次握手" title="TCP 三次握手" style="zoom:80%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/tcp-connection-made-three-way-handshake.png" alt="TCP 三次握手" title="TCP 三次握手" style="zoom:80%;"></p>
 <p>为何要进行三次，而不是两次？简单说说我的理解（这篇文章讲解三次握手很生动：<a href="https://mp.weixin.qq.com/s/SiHkaWeV0JSmdv5s0jqWgg" target="_blank" rel="noopener">TCP/IP 之 大明王朝邮差</a>）。</p>
 <p>第一次握手，是客户端发送信息，服务端收到信息。这时，服务端知道，自己收信及客户端发信的能力都是正常的。可客户端还处于不知道这些情况的状态。</p>
 <p>第二次握手，是服务端发送确认信息，客户端接收到服务端的确认信息。这时，客户端便知道自己的发信、收信能力都是正常的，同时服务端的发信收信能力也是正常的。但此时服务端并不知道自己的确认信息有没有发成功，并不知道自己的发信能力是否正常，因此才需要第三次握手。</p>
 <p>第三次握手，客户端发送接收到服务端信息的确认信息，当服务端接收到该确认信息，才确定自己的发信能力也是正常的，终于，客户端与服务端都明白自己发收信息的能力没有问题，可以保证信息的正常传递。</p>
 <p>对断开连接的四次挥手，也是可以类似思考，头两次的挥手，客户端确认了服务端不再接受自己的信息，服务端会断开，但是服务端除了处理当前这个客户端，还可能同时处理其他多个客户端（全双工），因此服务端也需要确认客户端与自己断开连接，后两次的作用便是如此，服务端确认了客户端不会再接收自己的信息，客户端会断开。</p>
 <p>至此两方都确认了对方不会再传输数据，连接终止。图示如下：</p>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/computer-network-notes-1/tcp-connection-closed-four-way-handshake.png" alt="TCP 四次挥手" title="TCP 四次挥手" style="zoom:80%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/computer-network-notes-1/tcp-connection-closed-four-way-handshake.png" alt="TCP 四次挥手" title="TCP 四次挥手" style="zoom:80%;"></p>
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://hit-alibaba.github.io/interview/basic/network/TCP.html" target="_blank" rel="noopener">TCP 协议</a><br><a href="https://mp.weixin.qq.com/s/SiHkaWeV0JSmdv5s0jqWgg" target="_blank" rel="noopener">TCP/IP 之 大明王朝邮差</a></p>
 <p><strong>END</strong></p>
 

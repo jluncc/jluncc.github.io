@@ -14,13 +14,13 @@
 <meta property="og:site_name" content="慵懒的他">
 <meta property="og:description" content="一 事情起因是最近写一块业务代码的时候，明知道之前写过类似功能的方法，却没有复用起来，又多写了个逻辑大致一样的独立方法。写完调试我便开始懊恼，越发发现这两个方法应该归并一致，统一维护，不然，就相当于维护两套代码了。 进而我又思考了出现这种情况的缘由，在我的认知里，普通的业务开发，核心是对数据库表的增删查改，体现在代码中，是数据在集合，方法间流转与拼接。 例如在最常见的查询数据操作，我们最简单的抽象">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/thinking-about-recent-work/ordinary-process.png">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/thinking-about-recent-work/in-out-parameter.png">
-<meta property="og:updated_time" content="2020-03-21T16:49:09.037Z">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/ordinary-process.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/in-out-parameter.png">
+<meta property="og:updated_time" content="2020-04-05T03:38:16.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最近写 CRUD 与「实时计算」的感悟">
 <meta name="twitter:description" content="一 事情起因是最近写一块业务代码的时候，明知道之前写过类似功能的方法，却没有复用起来，又多写了个逻辑大致一样的独立方法。写完调试我便开始懊恼，越发发现这两个方法应该归并一致，统一维护，不然，就相当于维护两套代码了。 进而我又思考了出现这种情况的缘由，在我的认知里，普通的业务开发，核心是对数据库表的增删查改，体现在代码中，是数据在集合，方法间流转与拼接。 例如在最常见的查询数据操作，我们最简单的抽象">
-<meta name="twitter:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/thinking-about-recent-work/ordinary-process.png">
+<meta name="twitter:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/ordinary-process.png">
     
     
         
@@ -152,11 +152,11 @@
 <p>事情起因是最近写一块业务代码的时候，明知道之前写过类似功能的方法，却没有复用起来，又多写了个逻辑大致一样的独立方法。写完调试我便开始懊恼，越发发现这两个方法应该归并一致，统一维护，不然，就相当于维护两套代码了。</p>
 <p>进而我又思考了出现这种情况的缘由，在我的认知里，普通的业务开发，核心是对数据库表的增删查改，体现在代码中，是<strong>数据在集合，方法间流转与拼接</strong>。</p>
 <p>例如在最常见的查询数据操作，我们最简单的抽象可如下图左方流程所示：</p>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/thinking-about-recent-work/ordinary-process.png" style="zoom:50%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/ordinary-process.png" style="zoom:50%;"></p>
 <p>将我们的应用抽象成一个黑盒的，用户的请求一旦发起，应用就按要求去数据库取数据，并返回给用户。让我们再深入一层看看。打开应用这个黑盒，我们会发现，处理请求主要是由一个主方法构成，里面就是处理用户查询的具体逻辑。</p>
 <p>如果逻辑复杂，便会对小块，特定的处理抽象成独立的方法，抽离供主方法调用，提高主方法的易读性与维护性（当然，也有让人崩溃的发现，很多历史代码是一个方法成百上千行…），如上图的右方流程所示。</p>
 <p>还是不久前，这种抽离小块逻辑，把主方法的简洁，清晰程度提高，是我想到的优化代码的几个方面之一，经过最近这次没有复用代码的反思，我有了解到更深入的一层。</p>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/thinking-about-recent-work/in-out-parameter.png" style="zoom:60%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/in-out-parameter.png" style="zoom:60%;"></p>
 <p>除了要把抽离的方法当做一个整体去对待，方法的入参出参也不能忽略（这是我之前一直忽略的）。很多时候，我们传进方法的数据会封装成一个对象，同样，出参数据也封装成对象，这样的好处是，如果想要扩展入参或出参数据，便可方便地在对象中扩展字段，在方法内适当处理便可。</p>
 <p>另外，正因为这是一个对象，自身会拥有字段，也可以轻易的扩展字段，便需要思考字段的合理与否。我应该设计一个怎样的入参对象，这个对象是用来做什么，在什么场景内使用，会有扩展需求吗，会有如何的扩展？这些思考是不能忽略的，回想一开头说的方法没有复用，正是因为我新写的方法，入参出参与原方法有相同却又有所差别，而自己一开始没有思考周全便开始写代码，才导致又多出了一个冗余的方法。</p>
 <p>所以我意识到，方法的抽离，处理要关注方法内的逻辑，更要思考方法的入参出参对象，最好是思考清楚这个方法要处理的领域模型如何，设计出适当的对象。一个系统中方法成百上千个，这么多方法，入参出参也只会更多，那如何好好管理好这些对象又成了一个值得思考的问题，当然这是后话。</p>

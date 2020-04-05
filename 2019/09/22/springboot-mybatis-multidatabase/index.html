@@ -14,15 +14,15 @@
 <meta property="og:site_name" content="慵懒的他">
 <meta property="og:description" content="最近在搭建项目的框架，使用的是 SpringBoot 跟 Mybatis，并接入了多数据源。这里总结一下整合的流程以及踩过的坑。你亦可到 github 上查看我的工程代码：springboot-mybatis-multidatabase。 SpringBoot2 整合 Mybatis，接入多数据源流程01 测试数据在本地测试，我使用了 MySQL，创建 test_db1 / test_db2 两个">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-1.png">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-2.png">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/result-1.png">
-<meta property="og:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/result-2.png">
-<meta property="og:updated_time" content="2020-03-08T11:41:42.919Z">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-1.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-2.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-1.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-2.png">
+<meta property="og:updated_time" content="2020-04-05T03:50:35.443Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot2 整合 Mybatis 多数据源流程">
 <meta name="twitter:description" content="最近在搭建项目的框架，使用的是 SpringBoot 跟 Mybatis，并接入了多数据源。这里总结一下整合的流程以及踩过的坑。你亦可到 github 上查看我的工程代码：springboot-mybatis-multidatabase。 SpringBoot2 整合 Mybatis，接入多数据源流程01 测试数据在本地测试，我使用了 MySQL，创建 test_db1 / test_db2 两个">
-<meta name="twitter:image" content="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-1.png">
+<meta name="twitter:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-1.png">
     
     
         
@@ -157,8 +157,8 @@
 <blockquote>
 <p>我的工程代码链接：<a href="https://github.com/jluncc/my-springboot-demo/tree/master/springboot-mybatis-multidatabase" target="_blank" rel="noopener">springboot-mybatis-multidatabase</a>，你也可以从中获取我使用的数据脚本。</p>
 </blockquote>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-1.png" alt="测试数据1-student表" title="测试数据1-student表" style="zoom:61%;"></p>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-2.png" alt="测试数据2-category表" title="测试数据2-category表" style="zoom:60%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-1.png" alt="测试数据1-student表" title="测试数据1-student表" style="zoom:61%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-2.png" alt="测试数据2-category表" title="测试数据2-category表" style="zoom:60%;"></p>
 <h3 id="02-pom-依赖"><a href="#02-pom-依赖" class="headerlink" title="02 pom 依赖"></a>02 pom 依赖</h3><p>我们新建 SpringBoot 项目（你可在 <a href="https://start.spring.io" target="_blank" rel="noopener">https://start.spring.io</a> 自动创建，或使用 IDEA 等 IDE 来辅助创建，不在此详述），先来看看 pom 文件的依赖。我是基于 SpringBoot2 来操作的，具体使用到的版本为 2.1.8.RELEASE。</p>
 <p>此外使用到 MySQL 数据库，lombok 插件，swagger 调用测试接口来校验结果：</p>
 <blockquote>
@@ -212,9 +212,9 @@
 <p>@ApiOperation 是 swagger 的注解，启动项目后 swagger 可自动将接口生成文档，同时也可模拟接口调用。这里我将使用 swagger 来测试接口。</p>
 </blockquote>
 <h3 id="06-结果"><a href="#06-结果" class="headerlink" title="06 结果"></a>06 结果</h3><p>到这里代码编写完毕。启动项目，打开  <a href="http://localhost:8090/swagger-ui.html%EF%BC%8C%E5%8F%AF%E7%9C%8B%E5%88%B0" target="_blank" rel="noopener">http://localhost:8090/swagger-ui.html</a>，可看到 swagger 自动生成的接口文档，我们进行测试调用 /api/test/student/1，获取数据与数据库一致。</p>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/result-1.png" alt="结果1" title="结果1" style="zoom:100%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-1.png" alt="结果1" title="结果1" style="zoom:100%;"></p>
 <p>同样，根据该思路我们编写另一数据源 db2 的相应代码，最后测试调用 /api/test/category/1，亦正常获取到数据</p>
-<p><img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/result-2.png" alt="结果2" title="结果2" style="zoom:100%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-2.png" alt="结果2" title="结果2" style="zoom:100%;"></p>
 <h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><h3 id="01-使用数据源配置文件后，Mybatis-配置不生效"><a href="#01-使用数据源配置文件后，Mybatis-配置不生效" class="headerlink" title="01 使用数据源配置文件后，Mybatis 配置不生效"></a>01 使用数据源配置文件后，Mybatis 配置不生效</h3><p>配置了多数据源后，一开始 Mybatis 的 yml 配置（mybatis.configuration）是不生效的，例如我们上面配置的下划线转驼峰。</p>
 <p>这是因为数据源的 Mybatis 配置信息在 SqlSessionFactory 中生成，而我们是自定义了该工厂的生成，此时，Spring 没有将 yml 中的 Mybatis 配置信息放入到 SqlSessionFactory 中，因此在上面的配置类代码中，我们需要显式使用 @ConfigurationProperties(prefix = “mybatis.configuration.db1”) 加载特定数据源的 Mybatis 配置。</p>
 <h3 id="02-yml-中-Mybatis-数据源配置要分别配置"><a href="#02-yml-中-Mybatis-数据源配置要分别配置" class="headerlink" title="02 yml 中 Mybatis 数据源配置要分别配置"></a>02 yml 中 Mybatis 数据源配置要分别配置</h3><p>不同数据源需要分别配置，这是因为一个配置只能加载到一个 bean 中，上面两个数据源需要分别编写配置类，因此单一 bean 是满足不了的。</p>
