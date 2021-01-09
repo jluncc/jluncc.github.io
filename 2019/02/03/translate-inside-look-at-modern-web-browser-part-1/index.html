@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/translate-inside-look-at-modern-web-browser-part-1/tabs.png">
 <meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/translate-inside-look-at-modern-web-browser-part-1/servicfication.png">
 <meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/translate-inside-look-at-modern-web-browser-part-1/isolation.png">
-<meta property="og:updated_time" content="2020-04-05T03:35:55.175Z">
+<meta property="og:updated_time" content="2020-08-22T07:23:04.123Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「译文」深入探索现代 web 浏览器（第一部分）">
 <meta name="twitter:description" content="原文链接：https://developers.google.com/web/updates/2018/09/inside-browser-part1   在这篇译文中，我对 web, Chrome 等常见单词作了保留，一些术语的中文翻译参考了维基百科，而一些句子的翻译则参考了 Google 翻译。   CPU, GPU, 内存和多进程架构在这个由四部分组成的博客系列中，我们会从高层架构到渲染器">
@@ -162,7 +162,7 @@
 <p>原文链接：<a href="https://developers.google.com/web/updates/2018/09/inside-browser-part1" target="_blank" rel="noopener">https://developers.google.com/web/updates/2018/09/inside-browser-part1</a>  </p>
 <p>在这篇译文中，我对 web, Chrome 等常见单词作了保留，一些术语的中文翻译参考了维基百科，而一些句子的翻译则参考了 Google 翻译。 </p>
 </blockquote>
-<h2 id="CPU-GPU-内存和多进程架构"><a href="#CPU-GPU-内存和多进程架构" class="headerlink" title="CPU, GPU, 内存和多进程架构"></a>CPU, GPU, 内存和多进程架构</h2><p>在这个由四部分组成的博客系列中，我们会从高层架构到渲染器管道的细节来深入探索 Chrome 浏览器。如果你对浏览器如何将你的代码变成一个功能性网站的过程感到好奇，或者你困惑于为什么要使用某种特定技术来提高性能，便值一读该系列文章。  </p>
+<h2 id="CPU-GPU-内存和多进程架构"><a href="#CPU-GPU-内存和多进程架构" class="headerlink" title="CPU, GPU, 内存和多进程架构"></a>CPU, GPU, 内存和多进程架构</h2><p>在这个由四部分组成的博客系列中，我们会从高层架构到渲染器管道的细节来深入探索 Chrome 浏览器。如果你对浏览器如何将你的代码变成一个功能性网站的过程感到好奇，或者你困惑于为什么要使用某种特定技术来提高性能，便值得一读该系列文章。  </p>
 <p>在这个系列的第一部分，我们会来看一下计算机的核心术语以及 Chrome 的多进程架构。  </p>
 <blockquote>
 <p>提示：如果你熟悉 CPU/GPU 和 进程/线程 的概念，你可以直接跳到浏览器架构部分阅读  </p>
@@ -190,7 +190,7 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:left">该进程</th>
+<th style="text-align:left">进程</th>
 <th style="text-align:left">其掌控的内容</th>
 </tr>
 </thead>
@@ -284,7 +284,7 @@
         
         <footer id="footer">
   <div class="footer-left">
-    Copyright &nbsp;&copy;&nbsp; 2019 - 2020 &nbsp; 陈加菲
+    Copyright &nbsp;&copy;&nbsp; 2019 - 2021 &nbsp; 陈加菲
   </div>
   <div class="footer-right">
     <nav>
