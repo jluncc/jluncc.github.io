@@ -18,9 +18,9 @@ tags:
 
 > 我的工程代码链接：[springboot-mybatis-multidatabase](https://github.com/jluncc/my-springboot-demo/tree/master/springboot-mybatis-multidatabase)，你也可以从中获取我使用的数据脚本。
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-1.png" alt="测试数据1-student表" title="测试数据1-student表" style="zoom:61%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-1.png" alt="测试数据1-student表" title="测试数据1-student表" style="zoom:61%;" />
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/test-data-2.png" alt="测试数据2-category表" title="测试数据2-category表" style="zoom:60%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-2.png" alt="测试数据2-category表" title="测试数据2-category表" style="zoom:60%;" />
 
 
 
@@ -276,11 +276,11 @@ public class TestController {
 
 到这里代码编写完毕。启动项目，打开  [http://localhost:8090/swagger-ui.html](http://localhost:8090/swagger-ui.html%EF%BC%8C%E5%8F%AF%E7%9C%8B%E5%88%B0)，可看到 swagger 自动生成的接口文档，我们进行测试调用 /api/test/student/1，获取数据与数据库一致。
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/result-1.png" alt="结果1" title="结果1" style="zoom:100%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-1.png" alt="结果1" title="结果1" style="zoom:100%;" />
 
 同样，根据该思路我们编写另一数据源 db2 的相应代码，最后测试调用 /api/test/category/1，亦正常获取到数据
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/springboot-mybatis-multidatabase/result-2.png" alt="结果2" title="结果2" style="zoom:100%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-2.png" alt="结果2" title="结果2" style="zoom:100%;" />
 
 
 

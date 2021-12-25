@@ -17,7 +17,7 @@ tags:
 
 算法是一组完成任务的指令，能够解决问题，体现了一种思想。这样讲比较模糊，让我来打个比喻。
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/grokking-algorithms-note/book-side.jpg" alt="横着排的书" title="横着排的书" style="zoom:55%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/book-side.jpg" alt="横着排的书" title="横着排的书" style="zoom:55%;" />
 
 桌子上横放了几本书，我想要拿出《算法图解》时，我是这么打算的：
 
@@ -52,7 +52,7 @@ tags:
 
 接着讲数据结构。数据结构是组织数据的方式，例如，上面的书是横着放的，这是一个组织书的方式，但当我要拿《算法图解》的时候，便会发觉有些麻烦，因为它在最底下，需要把上面的书先拿起来才能拿到。当然了，我们可以换种整理书的方式：竖着排
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/grokking-algorithms-note/book-vertical.jpg" alt="竖着排的书" title="竖着排的书" style="zoom:55%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/book-vertical.jpg" alt="竖着排的书" title="竖着排的书" style="zoom:55%;" />
 
 好了，现在无论是那本书，我们都可以很容易地立刻拿到。这种竖着排的方式，是另一种组织书的方式，因此它是另一种数据结构。
 
@@ -96,7 +96,7 @@ tags:
 
 这里是我总结的脑图，读完这本书，解决了我对算法比较模糊的理解，对算法有了更加系统的认识，当然，认识还不算深入，需要继续掌握树、图等数据结构，以及各种复杂的算法思想。
 
-![算法图解笔记脑图](http://q6q6q9uu8.bkt.clouddn.com/images/grokking-algorithms-note/algorithms-note.png "算法图解笔记脑图")
+![算法图解笔记脑图](https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/algorithms-note.png "算法图解笔记脑图")
 
 
 

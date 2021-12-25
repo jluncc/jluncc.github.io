@@ -19,7 +19,7 @@ tags:
 
 MySQL 是一个开源的关系型数据库，我们与数据库交互，一般的场景是把 SQL 发送给 MySQL，从 MySQL 中得到处理的结果。先来看一张架构图：
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/mysql-architecture.png" alt="MySQL 架构图" title="MySQL 架构图" style="zoom:120%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/mysql-note/mysql-architecture.png" alt="MySQL 架构图" title="MySQL 架构图" style="zoom:120%;" />
 
 由上至下依次为：
 
@@ -106,7 +106,7 @@ limit < limit_number >
 
 此外，我们再看一张图，这张图说明了，我们在写 SQL 语句的每个步骤中，需要注意的问题：
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/sql-fishbone-illustration.png" alt="SQL 解析注意点鱼刺图" title="SQL 解析注意点鱼刺图" style="zoom:100%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/mysql-note/sql-fishbone-illustration.png" alt="SQL 解析注意点鱼刺图" title="SQL 解析注意点鱼刺图" style="zoom:100%;" />
 
 > 1. 在 from 加载表的时候，避免出现笛卡尔积
 > 2. 联表加载数据，若是左右外连接，注意主表的全部数据会保留，同时应该使用小表作为主表，以小表驱动大表
@@ -118,7 +118,7 @@ limit < limit_number >
 
 SQL 联表中，主要有 7 中联表类型。
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/sql-join.jpg" alt="7 种 SQL JOIN 类型" title="7 种 SQL JOIN 类型" style="zoom:100%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/mysql-note/sql-join.jpg" alt="7 种 SQL JOIN 类型" title="7 种 SQL JOIN 类型" style="zoom:100%;" />
 
 注意的一点是，MySQL 中不支持 full outer join，因此要实现 full outer join（全连接），可使用 union（或 union all）代替。
 
@@ -204,7 +204,7 @@ explain 分析能让我们知道：
 
 运行 explain，可以获取如下多列的信息，这些信息包含了上面几个方面的内容
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/explain-column.png" alt="explain 分析列" title="explain 分析列" style="zoom:100%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/mysql-note/explain-column.png" alt="explain 分析列" title="explain 分析列" style="zoom:100%;" />
 
 ### 1）id
 
@@ -246,7 +246,7 @@ select_type 常见的有 6 种：**SIMPLE / PRIMARY / SUBQUERY / DERIVED / UNION
 
 一般来说要优化到 range 级别，最好是到 ref 级别。
 
-<img src="http://q6q6q9uu8.bkt.clouddn.com/images/mysql-note/explain-type.png" alt="type 类型" title="type 类型" style="zoom:100%;" />
+<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/mysql-note/explain-type.png" alt="type 类型" title="type 类型" style="zoom:100%;" />
 
 > 1）system：表只有一行记录（等于系统表），这是 const 类型的特例，平时不会出现，这个可以忽略不计
 >
