@@ -15,19 +15,19 @@ tags:
 
 第一章简单介绍了相关概念，例如消息中间件，RabbitMQ 的含义。这是入门性质的概念，读多几遍，思考这种技术提出来要应对的问题，其提供的解决方案，便容易深入理解。
 
-<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/rabbitmq-reading-notes-1/01-RabbitMQ.png" alt="01 RabbitMQ 简介" title="01 RabbitMQ 简介" style="zoom:1000%;" />
+<img src="https://pic3.zhimg.com/80/v2-8c0607226a5a01e18a4e1719ed7b1e4e_1440w.jpg" alt="01 RabbitMQ 简介" title="01 RabbitMQ 简介" style="zoom:1000%;" />
 
 ### 02 RabbitMQ 入门
 
 第二章继续深入介绍 RabbitMQ 的核心概念，例如交换器、队列、绑定关系等，理解好这些核心概念，后面消息的发送接收等操作，不同特点的队列，便更容易掌握。同时这里也介绍了底层使用的 AMQP 协议。
 
-<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/rabbitmq-reading-notes-1/02-RabbitMQ.png" alt="02 RabbitMQ 入门.png" title="02 RabbitMQ 入门.png" style="zoom:100%;" />
+<img src="https://pic2.zhimg.com/80/v2-31d9fee571c0002fb40b46bc7b37b1e5_1440w.jpg" alt="02 RabbitMQ 入门.png" title="02 RabbitMQ 入门.png" style="zoom:100%;" />
 
 ### 03 客户端开发向导
 
 在第三章里，详细介绍了生产者发送消息，到消费者消费消息的一整个流程，以及其中需要注意的小细节等，这一章较为重要，要加深理解。
 
-<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/rabbitmq-reading-notes-1/03-RabbitMQ.png" alt="03 客户端开发向导.png" title="03 客户端开发向导.png" style="zoom:100%;" />
+<img src="https://pic1.zhimg.com/80/v2-0fe85e21eacd8717e01f2cb0f59058cc_1440w.jpg" alt="03 客户端开发向导.png" title="03 客户端开发向导.png" style="zoom:100%;" />
 
 ### 04 RabbitMQ 进阶
 
@@ -40,6 +40,8 @@ tags:
 3. 消息和队列都需要进行持久化处理，确保 RabbitMQ 服务器在遇到异常时不会造成消息丢失
 4. 消费者在消费消息同时需要手动应答，确认已正确消费消息，避免在消费端引起不必要的消息丢失
 
-<img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/rabbitmq-reading-notes-1/04-RabbitMQ.png" alt="04 RabbitMQ 进阶.png" title="04 RabbitMQ 进阶.png" style="zoom:100%;" />
+<img src="https://pic4.zhimg.com/80/v2-0eb3b237dc9883ac8c561e99f79c31b7_1440w.jpg" alt="04 RabbitMQ 进阶.png" title="04 RabbitMQ 进阶.png" style="zoom:100%;" />
+
+脑图更新于 2022-02
 
 **END**
