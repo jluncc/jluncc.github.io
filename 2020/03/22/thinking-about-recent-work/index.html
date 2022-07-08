@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="一 事情起因是最近写一块业务代码的时候，明知道之前写过类似功能的方法，却没有复用起来，又多写了个逻辑大致一样的独立方法。写完调试我便开始懊恼，越发发现这两个方法应该归并一致，统一维护，不然，就相当于维护两套代码了。 进而我又思考了出现这种情况的缘由，在我的认知里，普通的业务开发，核心是对数据库表的增删查改，体现在代码中，是数据在集合，方法间流转与拼接。 例如在最常见的查询数据操作，我们最简单的抽象">
+<meta name="keywords" content="其他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最近写 CRUD 与「实时计算」的感悟">
+<meta property="og:url" content="http://yoursite.com/2020/03/22/thinking-about-recent-work/index.html">
+<meta property="og:site_name" content="慵懒的他">
+<meta property="og:description" content="一 事情起因是最近写一块业务代码的时候，明知道之前写过类似功能的方法，却没有复用起来，又多写了个逻辑大致一样的独立方法。写完调试我便开始懊恼，越发发现这两个方法应该归并一致，统一维护，不然，就相当于维护两套代码了。 进而我又思考了出现这种情况的缘由，在我的认知里，普通的业务开发，核心是对数据库表的增删查改，体现在代码中，是数据在集合，方法间流转与拼接。 例如在最常见的查询数据操作，我们最简单的抽象">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/ordinary-process.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/in-out-parameter.png">
+<meta property="og:updated_time" content="2022-07-08T13:40:39.943Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最近写 CRUD 与「实时计算」的感悟">
+<meta name="twitter:description" content="一 事情起因是最近写一块业务代码的时候，明知道之前写过类似功能的方法，却没有复用起来，又多写了个逻辑大致一样的独立方法。写完调试我便开始懊恼，越发发现这两个方法应该归并一致，统一维护，不然，就相当于维护两套代码了。 进而我又思考了出现这种情况的缘由，在我的认知里，普通的业务开发，核心是对数据库表的增删查改，体现在代码中，是数据在集合，方法间流转与拼接。 例如在最常见的查询数据操作，我们最简单的抽象">
+<meta name="twitter:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/ordinary-process.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/myBlog-favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/myBlog-favicon.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/myBlog-favicon.png">
+          
+        
+    
+    <!-- title -->
+    <title>最近写 CRUD 与「实时计算」的感悟</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/05/18/Java-8-lambda-personal-example/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/16/grokking-algorithms-note/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+       <!--  <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li> -->
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/03/22/thinking-about-recent-work/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&text=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&is_video=false&description=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=最近写 CRUD 与「实时计算」的感悟&body=Check out this article: http://yoursite.com/2020/03/22/thinking-about-recent-work/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&name=最近写 CRUD 与「实时计算」的感悟&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        最近写 CRUD 与「实时计算」的感悟
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">陈加菲</span>
+      </span>&nbsp
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-21T16:37:30.000Z" itemprop="datePublished">2020-03-22</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/其他/">其他</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><strong>一</strong></p>
+<p>事情起因是最近写一块业务代码的时候，明知道之前写过类似功能的方法，却没有复用起来，又多写了个逻辑大致一样的独立方法。写完调试我便开始懊恼，越发发现这两个方法应该归并一致，统一维护，不然，就相当于维护两套代码了。</p>
+<p>进而我又思考了出现这种情况的缘由，在我的认知里，普通的业务开发，核心是对数据库表的增删查改，体现在代码中，是<strong>数据在集合，方法间流转与拼接</strong>。</p>
+<p>例如在最常见的查询数据操作，我们最简单的抽象可如下图左方流程所示：</p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/ordinary-process.png" style="zoom:50%;"></p>
+<p>将我们的应用抽象成一个黑盒的，用户的请求一旦发起，应用就按要求去数据库取数据，并返回给用户。让我们再深入一层看看。打开应用这个黑盒，我们会发现，处理请求主要是由一个主方法构成，里面就是处理用户查询的具体逻辑。</p>
+<p>如果逻辑复杂，便会对小块，特定的处理抽象成独立的方法，抽离供主方法调用，提高主方法的易读性与维护性（当然，也有让人崩溃的发现，很多历史代码是一个方法成百上千行…），如上图的右方流程所示。</p>
+<p>还是不久前，这种抽离小块逻辑，把主方法的简洁，清晰程度提高，是我想到的优化代码的几个方面之一，经过最近这次没有复用代码的反思，我有了解到更深入的一层。</p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/thinking-about-recent-work/in-out-parameter.png" style="zoom:60%;"></p>
+<p>除了要把抽离的方法当做一个整体去对待，方法的入参出参也不能忽略（这是我之前一直忽略的）。很多时候，我们传进方法的数据会封装成一个对象，同样，出参数据也封装成对象，这样的好处是，如果想要扩展入参或出参数据，便可方便地在对象中扩展字段，在方法内适当处理便可。</p>
+<p>另外，正因为这是一个对象，自身会拥有字段，也可以轻易的扩展字段，便需要思考字段的合理与否。我应该设计一个怎样的入参对象，这个对象是用来做什么，在什么场景内使用，会有扩展需求吗，会有如何的扩展？这些思考是不能忽略的，回想一开头说的方法没有复用，正是因为我新写的方法，入参出参与原方法有相同却又有所差别，而自己一开始没有思考周全便开始写代码，才导致又多出了一个冗余的方法。</p>
+<p>所以我意识到，方法的抽离，处理要关注方法内的逻辑，更要思考方法的入参出参对象，最好是思考清楚这个方法要处理的领域模型如何，设计出适当的对象。一个系统中方法成百上千个，这么多方法，入参出参也只会更多，那如何好好管理好这些对象又成了一个值得思考的问题，当然这是后话。</p>
+<p>简单总结，<strong>写好代码，要思考清楚这个方法要设计怎样的入参（考虑好扩展性），数据要使用怎样的容器存储，处理与流转，并用怎样的对象出参（同样要考虑清楚扩展性）</strong>。</p>
+<p><strong>二</strong></p>
+<p>这次写的代码里有一个「实时计算」的逻辑。是这样的，我们监听了数据库某张表的 binlog 日志，只要该表出现变动，就会触发实时计算一些指标。</p>
+<p>一开始提出业务构建在 binlog 日志上，便让人觉得奇怪，但具体有什么不足的地方，又让人说不出，只是疑惑，如果业务构建在 binlog 上是可行的，业界应该有使用并有宣传，但我还没听到过这种案例，只知道一般都把 binlog 用来做数据上的同步。当然也可能只是自己孤陋寡闻了。</p>
+<p>那就做吧，先把功能实现再说。</p>
+<p>很快也把功能写出来，且没什么大的问题，不过我们监听处理的逻辑也不复杂，接收到 binlog 日志时，就相对于一个通知作用，触发我们实时查库计算指定的指标值。一切好像挺顺利，但仔细思考里面可能会遇到的问题，也不能说这种方案就没有缺点。以下是我整理几点。</p>
+<p><strong>优点：</strong></p>
+<p>1）系统解耦，只需要关注表，可以不用应用方介入。</p>
+<p>特别是出现一张表可能有多方写时，如果改成多方发通知来让消费者消费，开发量就变得大且可能会有遗漏，这时，直接监听 binlog 便解耦了数据生产方。</p>
+<p>2）实时，源表改动，基于监听源表日志的业务也会实时变动。</p>
+<p><strong>缺点：</strong></p>
+<p>1）如果该方案大规模推广开，可能出现多个系统监听一张表的日志，假如是 5 个系统，这时该表的一条数据更新，就触发了 5 个系统实时做出反应，可能是 5 个系统的 5 条查库操作，相当于一次更新导致了五次查询，如果系统多起来，类似的对数据库的压力也会成倍增大。</p>
+<p>因此数据库自身的更新操作有可能给自己带来了更大的压力。</p>
+<p>2）类似上面第一点，假如该表有定时任务触发修改多条数据，便可能定时对数据库造成一定的压力。</p>
+<p>3）重算问题。如果监听日志的操作不是幂等，会出现重算可能有问题。</p>
+<p>4）binglog 日志消息其实也是通过消息队列传递，只是现在消息生产方从应用转移到了 MySQL，一旦用上了消息队列，那么就不得不面对队列可能出现的几大问题，例如，<strong>消息的遗漏或者多发，消息的顺序性问题</strong>等。</p>
+<p>5）业务不解耦。监听 binlog 系统是解耦了，可是业务逻辑上不解耦，因为从表的更新操作，在一些场景里比较难反推是由于什么动作去更新的。</p>
+<p>举个例子，假如我们有一张订单关系的 order 表，表的更新，可能涉及到用户下单、取消订单、申请退款等不同业务逻辑的操作，单单从 binlog 去反推这些业务逻辑是比较复杂的，这会导致，我可能只需要在用户取消订单的时候触发相应动作，但是因为分不清 order 表的更新是哪种动作造成的，便要在 order 表一有更新就去触发我的逻辑。宁可多算，不能漏算。但也造成了一下浪费。</p>
+<p><strong>END</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/03/22/thinking-about-recent-work/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&text=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&is_video=false&description=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=最近写 CRUD 与「实时计算」的感悟&body=Check out this article: http://yoursite.com/2020/03/22/thinking-about-recent-work/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&title=最近写 CRUD 与「实时计算」的感悟"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/03/22/thinking-about-recent-work/&name=最近写 CRUD 与「实时计算」的感悟&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+       <!--  <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a> -->
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &nbsp;&copy;&nbsp; 2019 - 2022 &nbsp; 陈加菲
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?0338d70f1784f1bdf5625252c8145f87";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

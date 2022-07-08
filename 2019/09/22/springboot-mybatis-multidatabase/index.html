@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="最近在搭建项目的框架，使用的是 SpringBoot 跟 Mybatis，并接入了多数据源。这里总结一下整合的流程以及踩过的坑。你亦可到 github 上查看我的工程代码：springboot-mybatis-multidatabase。 SpringBoot2 整合 Mybatis，接入多数据源流程01 测试数据在本地测试，我使用了 MySQL，创建 test_db1 / test_db2 两个">
+<meta name="keywords" content="SpringBoot,Mybatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot2 整合 Mybatis 多数据源流程">
+<meta property="og:url" content="http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/index.html">
+<meta property="og:site_name" content="慵懒的他">
+<meta property="og:description" content="最近在搭建项目的框架，使用的是 SpringBoot 跟 Mybatis，并接入了多数据源。这里总结一下整合的流程以及踩过的坑。你亦可到 github 上查看我的工程代码：springboot-mybatis-multidatabase。 SpringBoot2 整合 Mybatis，接入多数据源流程01 测试数据在本地测试，我使用了 MySQL，创建 test_db1 / test_db2 两个">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-1.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-2.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-1.png">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-2.png">
+<meta property="og:updated_time" content="2022-07-08T13:40:39.939Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot2 整合 Mybatis 多数据源流程">
+<meta name="twitter:description" content="最近在搭建项目的框架，使用的是 SpringBoot 跟 Mybatis，并接入了多数据源。这里总结一下整合的流程以及踩过的坑。你亦可到 github 上查看我的工程代码：springboot-mybatis-multidatabase。 SpringBoot2 整合 Mybatis，接入多数据源流程01 测试数据在本地测试，我使用了 MySQL，创建 test_db1 / test_db2 两个">
+<meta name="twitter:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-1.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/myBlog-favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/myBlog-favicon.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/myBlog-favicon.png">
+          
+        
+    
+    <!-- title -->
+    <title>SpringBoot2 整合 Mybatis 多数据源流程</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/16/mysql-note/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/06/16/rabbitmq-reading-notes-1/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+       <!--  <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li> -->
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&text=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&is_video=false&description=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SpringBoot2 整合 Mybatis 多数据源流程&body=Check out this article: http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&name=SpringBoot2 整合 Mybatis 多数据源流程&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot2-整合-Mybatis，接入多数据源流程"><span class="toc-number">1.</span> <span class="toc-text">SpringBoot2 整合 Mybatis，接入多数据源流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-测试数据"><span class="toc-number">1.1.</span> <span class="toc-text">01 测试数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-pom-依赖"><span class="toc-number">1.2.</span> <span class="toc-text">02 pom 依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-yml-配置"><span class="toc-number">1.3.</span> <span class="toc-text">03 yml 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#04-数据源配置"><span class="toc-number">1.4.</span> <span class="toc-text">04 数据源配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#05-编写代码测试"><span class="toc-number">1.5.</span> <span class="toc-text">05 编写代码测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mapper"><span class="toc-number">1.5.1.</span> <span class="toc-text">mapper</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#service-与-controller"><span class="toc-number">1.5.2.</span> <span class="toc-text">service 与 controller</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#06-结果"><span class="toc-number">1.6.</span> <span class="toc-text">06 结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#踩过的坑"><span class="toc-number">2.</span> <span class="toc-text">踩过的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-使用数据源配置文件后，Mybatis-配置不生效"><span class="toc-number">2.1.</span> <span class="toc-text">01 使用数据源配置文件后，Mybatis 配置不生效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-yml-中-Mybatis-数据源配置要分别配置"><span class="toc-number">2.2.</span> <span class="toc-text">02 yml 中 Mybatis 数据源配置要分别配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        SpringBoot2 整合 Mybatis 多数据源流程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">陈加菲</span>
+      </span>&nbsp
+      
+    <div class="postdate">
+      
+        <time datetime="2019-09-22T08:50:00.000Z" itemprop="datePublished">2019-09-22</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Mybatis/">Mybatis</a>, <a class="tag-link" href="/tags/SpringBoot/">SpringBoot</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近在搭建项目的框架，使用的是 SpringBoot 跟 Mybatis，并接入了多数据源。这里总结一下整合的流程以及踩过的坑。你亦可到 github 上查看我的工程代码：<a href="https://github.com/jluncc/my-springboot-demo/tree/master/springboot-mybatis-multidatabase" target="_blank" rel="noopener">springboot-mybatis-multidatabase</a>。</p>
+<h2 id="SpringBoot2-整合-Mybatis，接入多数据源流程"><a href="#SpringBoot2-整合-Mybatis，接入多数据源流程" class="headerlink" title="SpringBoot2 整合 Mybatis，接入多数据源流程"></a>SpringBoot2 整合 Mybatis，接入多数据源流程</h2><h3 id="01-测试数据"><a href="#01-测试数据" class="headerlink" title="01 测试数据"></a>01 测试数据</h3><p>在本地测试，我使用了 MySQL，创建 test_db1 / test_db2 两个数据库，分别新建一张测试表来模拟多数据源的接入。数据如下：</p>
+<blockquote>
+<p>我的工程代码链接：<a href="https://github.com/jluncc/my-springboot-demo/tree/master/springboot-mybatis-multidatabase" target="_blank" rel="noopener">springboot-mybatis-multidatabase</a>，你也可以从中获取我使用的数据脚本。</p>
+</blockquote>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-1.png" alt="测试数据1-student表" title="测试数据1-student表" style="zoom:61%;"></p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/test-data-2.png" alt="测试数据2-category表" title="测试数据2-category表" style="zoom:60%;"></p>
+<h3 id="02-pom-依赖"><a href="#02-pom-依赖" class="headerlink" title="02 pom 依赖"></a>02 pom 依赖</h3><p>我们新建 SpringBoot 项目（你可在 <a href="https://start.spring.io" target="_blank" rel="noopener">https://start.spring.io</a> 自动创建，或使用 IDEA 等 IDE 来辅助创建，不在此详述），先来看看 pom 文件的依赖。我是基于 SpringBoot2 来操作的，具体使用到的版本为 2.1.8.RELEASE。</p>
+<p>此外使用到 MySQL 数据库，lombok 插件，swagger 调用测试接口来校验结果：</p>
+<blockquote>
+<p>实际使用中，下面介绍的方法也测试过 MySQL 与 PostgreSQL 混用，同样正常运行。若接入其他数据库，需在 pom 中接入相应的依赖。</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">relativePath</span> /&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="03-yml-配置"><a href="#03-yml-配置" class="headerlink" title="03 yml 配置"></a>03 yml 配置</h3><p>我使用了 yml 配置文件格式，在这里，有三部分的配置</p>
+<ol>
+<li>database 数据源信息；</li>
+<li>Mybatis 配置。这里每个数据源单独配置了一份 Mybatis 的配置信息，后续会说明这样做的原因；</li>
+<li>服务暴露的端口 </li>
+</ol>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis:</span></span><br><span class="line"><span class="attr">  configuration:</span></span><br><span class="line"><span class="attr">    db1:</span></span><br><span class="line"><span class="attr">      log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br><span class="line"><span class="attr">      map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    db2:</span></span><br><span class="line"><span class="attr">      log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br><span class="line"><span class="attr">      map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  datasource:</span></span><br><span class="line"><span class="attr">    db1:</span></span><br><span class="line"><span class="attr">      jdbc-url:</span> <span class="attr">jdbc:mysql://localhost:3306/test_db1</span></span><br><span class="line"><span class="attr">      username:</span> <span class="string">your</span> <span class="string">username</span></span><br><span class="line"><span class="attr">      password:</span> <span class="string">your</span> <span class="string">password</span></span><br><span class="line"><span class="attr">      driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">    db2:</span></span><br><span class="line"><span class="attr">      jdbc-url:</span> <span class="attr">jdbc:mysql://localhost:3306/test_db2</span></span><br><span class="line"><span class="attr">      username:</span> <span class="string">your</span> <span class="string">username</span></span><br><span class="line"><span class="attr">      password:</span> <span class="string">your</span> <span class="string">password</span></span><br><span class="line"><span class="attr">      driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8090</span></span><br></pre></td></tr></table></figure>
+<h3 id="04-数据源配置"><a href="#04-数据源配置" class="headerlink" title="04 数据源配置"></a>04 数据源配置</h3><p>当在 SpringBoot 配置文件中创建多个数据源的配置时，若使用 Mybatis，mapper 是不能自动识别哪个 mapper 该基于哪个数据源连接的。这里我们的关键是需要<strong>为 mapper 指定使用的数据源</strong>。</p>
+<p>根据我的调研，有几种指定的思路，例如使用 AOP，或者本文介绍的，<strong>显式指定不同 mapper 使用不同的数据源</strong>。</p>
+<p>新建 Db1MybatisConfig.java，使用 @Configuration 指定为 Spring 的配置文件。接着，我们使用 @MapperScan 来指定，该份配置文件需要扫描哪些包（basePackages 参数），以及所扫描的包，使用哪份模板文件来与数据库操作（sqlSessionTemplateRef 参数）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan</span>(basePackages = <span class="string">"com.example.demo.mapper.db1"</span>, sqlSessionTemplateRef = <span class="string">"db1SqlSessionTemplate"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Db1MybatisConfig</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当指定了这两个参数，我们只要进一步的，让当前使用的模板文件与特定的数据库连接，便可实现<strong>特定包下的 mapper  与特定数据源连接</strong>。</p>
+<blockquote>
+<ol>
+<li>特定数据源 —&gt; 2. 特定 sqlSessionTemplate —&gt; 3. 特定包目录 —&gt; 4. 特定 mapper</li>
+</ol>
+</blockquote>
+<p>@MapperScan 实现了 3 -&gt; 4 步骤的过程，剩下的 1 -&gt;2 步骤需要在上述配置类中实现，详见下方代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span>(name = <span class="string">"db1DataSource"</span>)</span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"spring.datasource.db1"</span>) <span class="comment">// 读取yml数据源配置，自动注入到DataSource</span></span><br><span class="line"><span class="meta">@Primary</span> <span class="comment">// 注意若配置了多数据源，需要使用@Parimary显式指定一个主数据源，其余数据源不需再配置该注解</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> DataSource <span class="title">db1DataSource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> DataSourceBuilder.create().build();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span>(name = <span class="string">"db1Config"</span>)</span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"mybatis.configuration.db1"</span>) <span class="comment">// 读取yml Mybatis配置，自动注入到Configuration</span></span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="keyword">public</span> org.apache.ibatis.session.<span class="function">Configuration <span class="title">db1MybatisConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> org.apache.ibatis.session.Configuration();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span>(name = <span class="string">"db1SqlSessionFactory"</span>)</span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">db1SqlSessionFactory</span><span class="params">(@Qualifier(<span class="string">"db1DataSource"</span>)</span> DataSource dataSource,</span></span><br><span class="line"><span class="function">                                              @<span class="title">Qualifier</span><span class="params">(<span class="string">"db1Config"</span>)</span> org.apache.ibatis.session.Configuration config)</span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    SqlSessionFactoryBean bean = <span class="keyword">new</span> SqlSessionFactoryBean();</span><br><span class="line">    bean.setDataSource(dataSource);</span><br><span class="line">    bean.setConfiguration(config); <span class="comment">// 多数据源需要在各自的SessionFactory中设置配置Mybatis属性</span></span><br><span class="line">    bean.setMapperLocations(<span class="keyword">new</span> PathMatchingResourcePatternResolver().getResources(<span class="string">"classpath:/mapper/db1/*.xml"</span>));</span><br><span class="line">    <span class="keyword">return</span> bean.getObject();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span>(name = <span class="string">"db1TransactionManager"</span>)</span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> DataSourceTransactionManager <span class="title">db1TransactionManager</span><span class="params">(@Qualifier(<span class="string">"db1DataSource"</span>)</span> DataSource dataSource) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DataSourceTransactionManager(dataSource);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span>(name = <span class="string">"db1SqlSessionTemplate"</span>)</span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> SqlSessionTemplate <span class="title">db1SqlSessionTemplate</span><span class="params">(@Qualifier(<span class="string">"db1SqlSessionFactory"</span>)</span> SqlSessionFactory sqlSessionFactory) <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SqlSessionTemplate(sqlSessionFactory);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>首先使用 @ConfigurationProperties 获取 yml 文件中，我们配置的数据源信息，自动注入到 DataSource 对象；</li>
+<li>与 1 类似，使用 @ConfigurationProperties 获取 yml 中特定数据源的 Mybatis 配置信息，自动注入到 Configuration 对象；</li>
+<li>准备好上述数据后，进一步手动封装 SqlSessionFactory，再由其生成对应的 SqlSessionTemplate，并使用该数据源来进行事务管理 DataSourceTransactionManager。</li>
+</ol>
+<p>至此我们便绑定了特定数据源到特定的 SqlSessionTemplate，进而实现了特定包目录下的 mapper 文件，通过对应绑定的 SqlSessionTemplate 来操作特定的数据源。</p>
+<h3 id="05-编写代码测试"><a href="#05-编写代码测试" class="headerlink" title="05 编写代码测试"></a>05 编写代码测试</h3><h4 id="mapper"><a href="#mapper" class="headerlink" title="mapper"></a>mapper</h4><p>由于在数据源配置文件中绑定了特定的包目录，因此，我们有</p>
+<ol>
+<li>若想操作 db1 数据源，mapper 接口只可置于配置文件中绑定的 com.example.demo.mapper.db1 目录；</li>
+<li>若想操作 db2 数据源，mapper 接口只可置于配置文件中绑定的 com.example.demo.mapper.db2 目录。</li>
+</ol>
+<p>我们在 db1 目录中新建 StudentMapper.java 来进行测试：</p>
+<blockquote>
+<p>因为已在配置文件中指定了目录，因此 mapper 接口不需再使用 @Mapper。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">StudentMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;Student&gt; <span class="title">listStudent</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Student <span class="title">findStudentById</span><span class="params">(@Param(<span class="string">"id"</span>)</span> Integer id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来使用 XML 文件编写具体的 SQL，XML 文件的位置没有具体要求，看自己如何方便管理，例如我便类似的新建了 resource/mapper/db1 目录放置 db1 的 mapper 接口 XML 文件。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"com.example.demo.mapper.db1.StudentMapper"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"column_list"</span>&gt;</span>id, name, age, create_time, update_time<span class="tag">&lt;/<span class="name">sql</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"listStudent"</span> <span class="attr">resultType</span>=<span class="string">"com.example.demo.model.Student"</span>&gt;</span></span><br><span class="line">        select <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"column_list"</span>/&gt;</span> from student</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findStudentById"</span> <span class="attr">resultType</span>=<span class="string">"com.example.demo.model.Student"</span>&gt;</span></span><br><span class="line">        select <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"column_list"</span>/&gt;</span> from student where id = #&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="service-与-controller"><a href="#service-与-controller" class="headerlink" title="service 与 controller"></a>service 与 controller</h4><p>编写完 mapper，剩下的 service 与 controller 便没有特别：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> StudentMapper studentMapper;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Student&gt; <span class="title">listStudent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> studentMapper.listStudent();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Student <span class="title">getStudentById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> studentMapper.findStudentById(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>service 我直接编写实现类，而不是编写接口，针对接口编程。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/api/test/"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> StudentService studentService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation</span>(<span class="string">"根据id查询学生信息"</span>)</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/student/&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStudent</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> Integer id) </span>&#123;</span><br><span class="line">        Student student = studentService.getStudentById(id);</span><br><span class="line">        <span class="keyword">return</span> student == <span class="keyword">null</span> ? <span class="string">"no data."</span> : student.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation</span>(<span class="string">"查询学生列表"</span>)</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/student/list"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">students</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;Student&gt; students = studentService.listStudent();</span><br><span class="line">        <span class="keyword">return</span> CollectionUtils.isEmpty(students) ? <span class="string">"no data."</span> : students.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>@ApiOperation 是 swagger 的注解，启动项目后 swagger 可自动将接口生成文档，同时也可模拟接口调用。这里我将使用 swagger 来测试接口。</p>
+</blockquote>
+<h3 id="06-结果"><a href="#06-结果" class="headerlink" title="06 结果"></a>06 结果</h3><p>到这里代码编写完毕。启动项目，打开  <a href="http://localhost:8090/swagger-ui.html%EF%BC%8C%E5%8F%AF%E7%9C%8B%E5%88%B0" target="_blank" rel="noopener">http://localhost:8090/swagger-ui.html</a>，可看到 swagger 自动生成的接口文档，我们进行测试调用 /api/test/student/1，获取数据与数据库一致。</p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-1.png" alt="结果1" title="结果1" style="zoom:100%;"></p>
+<p>同样，根据该思路我们编写另一数据源 db2 的相应代码，最后测试调用 /api/test/category/1，亦正常获取到数据</p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/springboot-mybatis-multidatabase/result-2.png" alt="结果2" title="结果2" style="zoom:100%;"></p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><h3 id="01-使用数据源配置文件后，Mybatis-配置不生效"><a href="#01-使用数据源配置文件后，Mybatis-配置不生效" class="headerlink" title="01 使用数据源配置文件后，Mybatis 配置不生效"></a>01 使用数据源配置文件后，Mybatis 配置不生效</h3><p>配置了多数据源后，一开始 Mybatis 的 yml 配置（mybatis.configuration）是不生效的，例如我们上面配置的下划线转驼峰。</p>
+<p>这是因为数据源的 Mybatis 配置信息在 SqlSessionFactory 中生成，而我们是自定义了该工厂的生成，此时，Spring 没有将 yml 中的 Mybatis 配置信息放入到 SqlSessionFactory 中，因此在上面的配置类代码中，我们需要显式使用 @ConfigurationProperties(prefix = “mybatis.configuration.db1”) 加载特定数据源的 Mybatis 配置。</p>
+<h3 id="02-yml-中-Mybatis-数据源配置要分别配置"><a href="#02-yml-中-Mybatis-数据源配置要分别配置" class="headerlink" title="02 yml 中 Mybatis 数据源配置要分别配置"></a>02 yml 中 Mybatis 数据源配置要分别配置</h3><p>不同数据源需要分别配置，这是因为一个配置只能加载到一个 bean 中，上面两个数据源需要分别编写配置类，因此单一 bean 是满足不了的。</p>
+<p>另外，我们很可能会遇到不同数据源，Mybatis 配置不同的情况，这也需要我们将不同数据源的 Mybatis 配置分别设置。</p>
+<p>而对于不同环境，我们编写多份 yml 配置文件，不同文件里的 Mybatis 配置也可不相同，满足不同的具体需求。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.cnblogs.com/ityouknow/p/6102399.html" target="_blank" rel="noopener">Spring Boot(七)：Mybatis 多数据源最简解决方案</a><br><a href="https://www.cnblogs.com/flying607/p/8473075.html" target="_blank" rel="noopener">SpringBoot 中 mybatis 配置自动转换驼峰标识没有生效</a><br><a href="https://mybatis.org/mybatis-3/zh/configuration.html" target="_blank" rel="noopener">Mybatis XML 配置</a></p>
+<p><strong>END</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot2-整合-Mybatis，接入多数据源流程"><span class="toc-number">1.</span> <span class="toc-text">SpringBoot2 整合 Mybatis，接入多数据源流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-测试数据"><span class="toc-number">1.1.</span> <span class="toc-text">01 测试数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-pom-依赖"><span class="toc-number">1.2.</span> <span class="toc-text">02 pom 依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-yml-配置"><span class="toc-number">1.3.</span> <span class="toc-text">03 yml 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#04-数据源配置"><span class="toc-number">1.4.</span> <span class="toc-text">04 数据源配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#05-编写代码测试"><span class="toc-number">1.5.</span> <span class="toc-text">05 编写代码测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mapper"><span class="toc-number">1.5.1.</span> <span class="toc-text">mapper</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#service-与-controller"><span class="toc-number">1.5.2.</span> <span class="toc-text">service 与 controller</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#06-结果"><span class="toc-number">1.6.</span> <span class="toc-text">06 结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#踩过的坑"><span class="toc-number">2.</span> <span class="toc-text">踩过的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-使用数据源配置文件后，Mybatis-配置不生效"><span class="toc-number">2.1.</span> <span class="toc-text">01 使用数据源配置文件后，Mybatis 配置不生效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-yml-中-Mybatis-数据源配置要分别配置"><span class="toc-number">2.2.</span> <span class="toc-text">02 yml 中 Mybatis 数据源配置要分别配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-number">3.</span> <span class="toc-text">参考文章</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&text=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&is_video=false&description=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=SpringBoot2 整合 Mybatis 多数据源流程&body=Check out this article: http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&title=SpringBoot2 整合 Mybatis 多数据源流程"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/22/springboot-mybatis-multidatabase/&name=SpringBoot2 整合 Mybatis 多数据源流程&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+       <!--  <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a> -->
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &nbsp;&copy;&nbsp; 2019 - 2022 &nbsp; 陈加菲
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?0338d70f1784f1bdf5625252c8145f87";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="在做 LeetCode  7. 整数反转 时发现 2147483648 这个神奇的数字，我使用的是 Java，判断 -(-2147483648)==(-2147483648) 时，得到结果是 true，因此决定一探究竟（文章最后简单说明了为何这个判断为 true）。 浏览资料时发现了这篇文章 What’s so special about 2147483648?，觉得有趣，于是决定翻译下来。">
+<meta name="keywords" content="翻译,计算机基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「译文」为什么 2147483648 如此特别">
+<meta property="og:url" content="http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/index.html">
+<meta property="og:site_name" content="慵懒的他">
+<meta property="og:description" content="在做 LeetCode  7. 整数反转 时发现 2147483648 这个神奇的数字，我使用的是 Java，判断 -(-2147483648)==(-2147483648) 时，得到结果是 true，因此决定一探究竟（文章最后简单说明了为何这个判断为 true）。 浏览资料时发现了这篇文章 What’s so special about 2147483648?，觉得有趣，于是决定翻译下来。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-07-08T13:40:39.943Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「译文」为什么 2147483648 如此特别">
+<meta name="twitter:description" content="在做 LeetCode  7. 整数反转 时发现 2147483648 这个神奇的数字，我使用的是 Java，判断 -(-2147483648)==(-2147483648) 时，得到结果是 true，因此决定一探究竟（文章最后简单说明了为何这个判断为 true）。 浏览资料时发现了这篇文章 What’s so special about 2147483648?，觉得有趣，于是决定翻译下来。">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/myBlog-favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/myBlog-favicon.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/myBlog-favicon.png">
+          
+        
+    
+    <!-- title -->
+    <title>「译文」为什么 2147483648 如此特别</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/28/computer-network-notes-1/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/01/steve-jobs-reading-notes/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+       <!--  <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li> -->
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&text=「译文」为什么 2147483648 如此特别"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&is_video=false&description=「译文」为什么 2147483648 如此特别"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=「译文」为什么 2147483648 如此特别&body=Check out this article: http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&name=「译文」为什么 2147483648 如此特别&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么-2147483648-如此特别"><span class="toc-number">1.</span> <span class="toc-text">为什么 2147483648 如此特别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">2.</span> <span class="toc-text">后记</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        「译文」为什么 2147483648 如此特别
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">陈加菲</span>
+      </span>&nbsp
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-11T18:25:30.000Z" itemprop="datePublished">2019-12-12</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/翻译/">翻译</a>, <a class="tag-link" href="/tags/计算机基础/">计算机基础</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>在做 LeetCode  <a href="https://leetcode-cn.com/problems/reverse-integer/" target="_blank" rel="noopener">7. 整数反转</a> 时发现 2147483648 这个神奇的数字，我使用的是 Java，判断 -(-2147483648)==(-2147483648) 时，得到结果是 true，因此决定一探究竟（文章最后简单说明了为何这个判断为 true）。</p>
+<p>浏览资料时发现了这篇文章 <a href="https://www.networkworld.com/article/3010974/whats-so-special-about-2147483648.html" target="_blank" rel="noopener">What’s so special about 2147483648?</a>，觉得有趣，于是决定翻译下来。</p>
+</blockquote>
+<h3 id="为什么-2147483648-如此特别"><a href="#为什么-2147483648-如此特别" class="headerlink" title="为什么 2147483648 如此特别"></a>为什么 2147483648 如此特别</h3><p>首先，它是 2 的幂。无疑，这不是一件明显的事情，除非你是某种数学天才。而且精确的说，它是 2^31。这很重要——稍后你就会看到。</p>
+<p>在二进制里面，2147483647 是 01111111111111111111111111111111，当使用补码表示法（”two’s complement” notation）时，它是可容纳在 32 位比特中最大的正整数——这种表示数字的方法允许表示负数。如果我们能够使用最左边（高位）的比特，最大的数字将会变成两倍大，因为在一个二进制数字中每个额外的比特能够表示双倍的范围。</p>
+<p>你会在运算 256 <em> 256 </em> 256 * 256 然后除以 2 时得到 2147483648，还没感到激动吗？再给我一分钟的时间。</p>
+<p>在 4 字节或 32 位比特数字中，第 32 位比特的数字被用来代表这个数字是正数还是负数。如果这一位是 0，譬如 01111111111111111111111111111111，这个数字就是 +2147483647；如果是 1，譬如 11111111111111111111111111111111，这个数字就是 -2147483648。</p>
+<p>因此，Unix 系统中有一种表示更大数字范围的方法，也有表示负数的方法。但这并不意味你不能使用更大的数字，在现代 Linux 系统中，2147483648 甚至远没接近你能操作的最大的数字。看下在我 AWS 系统的终端中一个例子的部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ echo $n</span><br><span class="line">25227339711002779721296336059113506713437716431793799076536161744218926098</span><br><span class="line">42688929348009219253857839258425602022609412708599928289785519021711589989</span><br><span class="line">59576178192</span><br><span class="line">$ n=`expr $n \* 9999`</span><br><span class="line">$ echo $n</span><br><span class="line">25224816977031679443324206425507595362766372660150619696628508128044504205</span><br><span class="line">81704660455074418331932453474499759462407151767329068296956540469809418830</span><br><span class="line">596802205741808</span><br></pre></td></tr></table></figure>
+<p>很明显地，你能够在终端中操作的数字在一个大得多的范围中，即便如此，2147483647 仍享有一定的声誉。这个数字代表着在 Unix 系统上能够表示的最近（即最远的未来）的日期——至少在现在来说。2038 年前的某个时候，Unix 的各种 “风味” 的开发者（译者：这里不是很懂该如何翻译）必须想清楚下一步该怎么做。为何这件事如此重要，以及为何是 2038 年？</p>
+<p>要理解这件事为什么如此重要，你必须考虑 Unix 是如何存储日期的。要在二进制中看当前的日期及时间，要使用类似这样的日期命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">date +%s</span><br><span class="line">1449012345</span><br></pre></td></tr></table></figure>
+<p>你可能已经听说过 Unix “纪元” 的引用。或多或少，它暗示着 Unix 的诞生日期，这个时间指向 1970 年 1 月 1 日。如果你在那天创建了一份文件，这份文件的创建日期会在系统中存储为 0。如果我们使用日期命令的 <code>-d</code>选项，我们可以类似如下这样，将日期 “0” 翻译成具体的日期/时间字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ date -d @0</span><br><span class="line">Thu Jan  1 00:00:00 UTC 1970</span><br></pre></td></tr></table></figure>
+<p>并且，若我们使用日期的最大值来替代 0，我们会得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ date -d @2147483647</span><br><span class="line">Tue Jan 19 03:14:07 UTC 2038</span><br></pre></td></tr></table></figure>
+<p>反过来，最小日期时间会从纪元时间（1970-01-01）向前跳转跟最大日期向后跳转相同的秒数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ date -d@-2147483648</span><br><span class="line">Fri Dec 13 20:45:52 UTC 1901</span><br></pre></td></tr></table></figure>
+<p>这意味着在 Unix 系统中能被存储的最大日期是 2038 年 1 月 19 日，以及，像 16 年前让人们担心的 Y2K 问题一样，当系统和设备的时间从 01111111111111111111111111111111 跳到 10000000000000000000000000000000 时，很可能被解析为 1901 年 1 月 19 日，因此 2038 问题正威胁扰乱系统及设备。等到那时，解决方法可能是增加另一个或两个字节来表示日期/时间，也有可能停止使用补码格式的时间表示方式，来让我们再有 68 年的时间来担心这个问题。希望我们不会有太多无法适配新日期格式的恒星或行星系统。</p>
+<p>Y2K 确实是一个问题，因为众多应用将年份存储为 2 位数字段格式，一旦 2000 年开始，看上去将会与 1900 年相似。然而，尽管有暴风雨般的问题，我们进入 21 世纪的时候，许多人期望的问题却更少了。</p>
+<p>但 2038 问题要花费更多的时间和关注，因为它涉及到日期的秒精度的内部表示方法。而且这些日期和时间危害着许多流程和设备。不过现在只是 1449012345，我们还有时间。</p>
+<hr>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a><strong>后记</strong></h3><p>现在再来回答为什么 Java 中 -(-2147483648)==(-2147483648)。</p>
+<p>其实不单是 Java，任何 32 位字节存储整数的系统都存在这个问题，因为在计算机内部，整数是以二进制形式存储的，而要想让二进制数值表达「负数」的概念，就需要一位标志位。计算机中采用了上文所述的最高位标志位。</p>
+<p>Java int 类型整数最多占用 32 位字节空间，约定最小的负数 -2147483648，二进制表示为 1000…（符号位 1  后跟 31 个 0），且其相反数同样为 1000…（符号位 1  后跟 31 个 0），你可以试试下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> testValue = -<span class="number">2147483648</span>;</span><br><span class="line">String binaryString = Integer.toBinaryString(testValue);</span><br><span class="line">String binaryString2 = Integer.toBinaryString(-testValue);</span><br><span class="line">System.out.println(binaryString);</span><br><span class="line">System.out.println(binaryString2);</span><br></pre></td></tr></table></figure>
+<p>这是因为，1000…（符号位 1  后跟 31 个 0）可以用来表示 -0，但这与 0 的二进制表示法 0000（共 32 个 0）不同，造成了 0 有两种表示方法，使得二进制与十进制的互换不再是一一对应的关系。因此约定了其中的一种方法表示为 -2147483648，所以负数的最小值绝对值比整数的最大值绝对值多 1。</p>
+<p>你可以看这篇文章了解更加详细的推理过程：<a href="https://www.dotcpp.com/wp/221.html" target="_blank" rel="noopener">int类型在内存中的存储方式</a></p>
+<p><strong>END</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么-2147483648-如此特别"><span class="toc-number">1.</span> <span class="toc-text">为什么 2147483648 如此特别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后记"><span class="toc-number">2.</span> <span class="toc-text">后记</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&text=「译文」为什么 2147483648 如此特别"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&is_video=false&description=「译文」为什么 2147483648 如此特别"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=「译文」为什么 2147483648 如此特别&body=Check out this article: http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&title=「译文」为什么 2147483648 如此特别"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/12/translate-whats-so-special-about-2147483648/&name=「译文」为什么 2147483648 如此特别&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+       <!--  <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a> -->
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &nbsp;&copy;&nbsp; 2019 - 2022 &nbsp; 陈加菲
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?0338d70f1784f1bdf5625252c8145f87";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="零、杂谈 git 中 origin 单词其实没啥意义，只是习惯用而已，master 也是如此  一、git 常用操作的命令00 推送代码到远端日常开发完一块功能，要把代码推送到远端保存时，一般是按如下步骤进行操作：  git status 显示本地仓库的状态。如果此时显示远端没有更新的代码，接着执行以下步骤； git add &amp;lt;filePath&amp;gt; 把此次改动的文件加入本地缓存区； gi">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git 常用操作流程">
+<meta property="og:url" content="http://yoursite.com/2020/12/23/my-git-common-operations/index.html">
+<meta property="og:site_name" content="慵懒的他">
+<meta property="og:description" content="零、杂谈 git 中 origin 单词其实没啥意义，只是习惯用而已，master 也是如此  一、git 常用操作的命令00 推送代码到远端日常开发完一块功能，要把代码推送到远端保存时，一般是按如下步骤进行操作：  git status 显示本地仓库的状态。如果此时显示远端没有更新的代码，接着执行以下步骤； git add &amp;lt;filePath&amp;gt; 把此次改动的文件加入本地缓存区； gi">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-07-08T13:40:39.939Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git 常用操作流程">
+<meta name="twitter:description" content="零、杂谈 git 中 origin 单词其实没啥意义，只是习惯用而已，master 也是如此  一、git 常用操作的命令00 推送代码到远端日常开发完一块功能，要把代码推送到远端保存时，一般是按如下步骤进行操作：  git status 显示本地仓库的状态。如果此时显示远端没有更新的代码，接着执行以下步骤； git add &amp;lt;filePath&amp;gt; 把此次改动的文件加入本地缓存区； gi">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/myBlog-favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/myBlog-favicon.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/myBlog-favicon.png">
+          
+        
+    
+    <!-- title -->
+    <title>git 常用操作流程</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/01/10/2020-summary/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/18/Java-8-lambda-personal-example/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+       <!--  <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li> -->
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/12/23/my-git-common-operations/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/12/23/my-git-common-operations/&text=git 常用操作流程"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/12/23/my-git-common-operations/&is_video=false&description=git 常用操作流程"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=git 常用操作流程&body=Check out this article: http://yoursite.com/2020/12/23/my-git-common-operations/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/12/23/my-git-common-operations/&name=git 常用操作流程&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#零、杂谈"><span class="toc-number">1.</span> <span class="toc-text">零、杂谈</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、git-常用操作的命令"><span class="toc-number">2.</span> <span class="toc-text">一、git 常用操作的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#00-推送代码到远端"><span class="toc-number">2.1.</span> <span class="toc-text">00 推送代码到远端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#01-标签相关"><span class="toc-number">2.2.</span> <span class="toc-text">01 标签相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-列出标签"><span class="toc-number">2.2.1.</span> <span class="toc-text">1 列出标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-创建标签"><span class="toc-number">2.2.2.</span> <span class="toc-text">2 创建标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-推送标签"><span class="toc-number">2.2.3.</span> <span class="toc-text">3 推送标签</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-分支"><span class="toc-number">2.3.</span> <span class="toc-text">02 分支</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-创建并切换到新分支"><span class="toc-number">2.3.1.</span> <span class="toc-text">1 创建并切换到新分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-显示分支"><span class="toc-number">2.3.2.</span> <span class="toc-text">2 显示分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-推送分支到远端"><span class="toc-number">2.3.3.</span> <span class="toc-text">3 推送分支到远端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-拉取分支"><span class="toc-number">2.3.4.</span> <span class="toc-text">4 拉取分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-分支的合并"><span class="toc-number">2.3.5.</span> <span class="toc-text">5 分支的合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-分支的变基"><span class="toc-number">2.3.6.</span> <span class="toc-text">6 分支的变基</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#07-测试分支的使用"><span class="toc-number">2.3.7.</span> <span class="toc-text">07 测试分支的使用</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        git 常用操作流程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">陈加菲</span>
+      </span>&nbsp
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-23T15:49:30.000Z" itemprop="datePublished">2020-12-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/git/">git</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="零、杂谈"><a href="#零、杂谈" class="headerlink" title="零、杂谈"></a>零、杂谈</h1><blockquote>
+<p>git 中 origin 单词其实没啥意义，只是习惯用而已，master 也是如此</p>
+</blockquote>
+<h1 id="一、git-常用操作的命令"><a href="#一、git-常用操作的命令" class="headerlink" title="一、git 常用操作的命令"></a>一、<strong>git 常用操作的命令</strong></h1><h2 id="00-推送代码到远端"><a href="#00-推送代码到远端" class="headerlink" title="00 推送代码到远端"></a><strong>00 推送代码到远端</strong></h2><p>日常开发完一块功能，要把代码推送到远端保存时，一般是按如下步骤进行操作：</p>
+<ol>
+<li><code>git status</code> 显示本地仓库的状态。如果此时显示远端没有更新的代码，接着执行以下步骤；</li>
+<li><code>git add &lt;filePath&gt;</code> 把此次改动的文件加入本地缓存区；</li>
+<li><code>git commit -m &#39;msg&#39;</code> 把文件提交到本地仓库，并一同带上此次修改信息；</li>
+<li><code>git push origin &lt;branchName&gt;</code> 把当前本地分支的代码推送到相应的远程分支上。</li>
+</ol>
+<h2 id="01-标签相关"><a href="#01-标签相关" class="headerlink" title="01 标签相关"></a><strong>01 标签相关</strong></h2><p>在阶段性的时候，一般会给工程代码打上一个标签，用标签来更简洁地标注工程每一个节点。</p>
+<h3 id="1-列出标签"><a href="#1-列出标签" class="headerlink" title="1 列出标签"></a><strong>1 列出标签</strong></h3><p><code>git tag</code> 显示工程当前所有的标签。</p>
+<p>如果想只显示某些标签，可以像这样使用通配符来进行标签过滤：<code>git tag -l &quot;v1.1*&quot;</code></p>
+<h3 id="2-创建标签"><a href="#2-创建标签" class="headerlink" title="2 创建标签"></a><strong>2 创建标签</strong></h3><p>标签可以带上备注信息，当然也可以不带上，如果只是简单的打上标签而不附上描述信息，可以执行这样的命令：<code>git tag tagName</code></p>
+<p>而在打标签的时候同时附上描述信息，则需要如此执行：<code>git tag -a tagName -m &quot;tag message&quot;</code></p>
+<p>如果想要查询某个 tag 的描述信息，你可以使用 show 命令：<code>git show tagName</code></p>
+<h3 id="3-推送标签"><a href="#3-推送标签" class="headerlink" title="3 推送标签"></a><strong>3 推送标签</strong></h3><p>标签与分支类似，在本地仓库创建完之后，需要推送到远端保存，否则别人是看不到你创建的标签。此时你需要使用 push 命令：<code>git push origin tagName</code></p>
+<h2 id="02-分支"><a href="#02-分支" class="headerlink" title="02 分支"></a><strong>02 分支</strong></h2><p>在该部分，我主要总结了自己在两家公司工作过程中，团队使用到的合并分支方法：<code>merge &amp; rebase</code>。</p>
+<h3 id="1-创建并切换到新分支"><a href="#1-创建并切换到新分支" class="headerlink" title="1 创建并切换到新分支"></a><strong>1 创建并切换到新分支</strong></h3><p>在日常功能开发时，首先是从主分支检出新分支作为功能开发分支，此时的本地仓库当前分支需要为主分支，且保证本地仓库版本与远端一致。然后，基于主分支创建自己的新分支，使用如下命令：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b &lt;branchName&gt;</span><br></pre></td></tr></table></figure>
+<p>执行完该命令，你会得到一个新的本地分支，并且当前分支已切换到新创建的分支上。这其实是两个步骤：创建分支，切换分支。你当然可以分开执行下面两行命令，达到同样的效果：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch &lt;branchName&gt;</span><br><span class="line">git checkout &lt;branchName&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="2-显示分支"><a href="#2-显示分支" class="headerlink" title="2 显示分支"></a><strong>2 显示分支</strong></h3><p>需要显示工程下有多少个分支时，使用命令：<code>git branch</code>。其中，带有 * 的代表当前分支。</p>
+<p>加上 -v 参数，你可以在显示分支时，一并显示各个分支最新一次的提交：<code>git branch -v</code>。</p>
+<p>除此之外，你还可以使用命令 <code>git branch -vv</code> 来显示所有分支，同时带有每个分支对应的远程分支，及最新的一次提交。</p>
+<h3 id="3-推送分支到远端"><a href="#3-推送分支到远端" class="headerlink" title="3 推送分支到远端"></a><strong>3 推送分支到远端</strong></h3><p>当你开发完业务功能，需要推送到远端保存时，使用 push 命名：<code>git push origin &lt;branchName&gt;</code>，也可参考上述 00 章节。</p>
+<h3 id="4-拉取分支"><a href="#4-拉取分支" class="headerlink" title="4 拉取分支"></a><strong>4 拉取分支</strong></h3><p>在上述 00 章节介绍执行 <code>git status</code> 后，如果显示本地仓库代码并非最新时，需要是先拉取远端代码，把本地代码保持最新，之后提交到远端才可能避免冲突。</p>
+<p>但是，如果本地分支没有与某个远程分支建立联系（例如新建工程第一次提交的时候），要先建立联系，而推送本地分支到远端时可以一并建立联系：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push <span class="comment">--set-upstream origin &lt;branchName&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样就会在远端也建立 branchName 分支，并与本地的 branchName 分支建立了联系。</p>
+<p>当需要拉取远程分支到本地的时候就可以使用命令：<code>git pull origin &lt;branchName&gt;</code></p>
+<p>此外，<code>git fetch</code> 可以把远程的数据抓取到本地，但是不会修改本地的内容，需要自己手动 merge： <code>git merge</code>。</p>
+<p>而刚才说的 <code>git pull</code> 命令，其实正是合并了上面两条命令的功能，在抓取后一并修改。</p>
+<h3 id="5-分支的合并"><a href="#5-分支的合并" class="headerlink" title="5 分支的合并"></a><strong>5 分支的合并</strong></h3><p>开发完成，我们需要把功能分支合并会主分支。而这一过程可以使用 merge 或 rebase。使用 merge 方式，进行开发分支合并到 master 主分支的场景时，我的操作步骤如下：</p>
+<p>首先检出当前分支，例如是开发分支，然后我们要合并 master 分支进开发分支。</p>
+<ol>
+<li>切换到本地 master 分支，使用 <code>git pull</code> 保证本地 master 是最新的</li>
+<li>切换到本地的开发分支，使用合并的命令：<code>git merge master</code>，将 master 合并进开发分支</li>
+<li>把本地分支 <code>git push</code> 推送到远端</li>
+<li>再在本地切换到 master 分支，使用合并分支的代码：<code>git merge &lt;开发分支名&gt;</code>，把功能代码合并进主分支</li>
+<li>使用 <code>git push</code> 把 master 分支推送到远程</li>
+</ol>
+<h3 id="6-分支的变基"><a href="#6-分支的变基" class="headerlink" title="6 分支的变基"></a><strong>6 分支的变基</strong></h3><p>使用 merge 时，功能分支与主分支是两条不同的分支，合并后会显得很凌乱，此外可以使用 reabse 命令来进行分支合并，好处是可以把功能分支的提交记录与主分支统一，在观感上看着更舒服。（但个人感觉使用 rebase 不是很好，因为需要强推到远端覆盖原功能分支）</p>
+<p>使用 rebase 合并代码时，我的操作如下：</p>
+<ol>
+<li>切换到本地 master 分支，使用 <code>git pull</code> 保证本地 master 是最新的</li>
+<li>切换当前开发分支，使用命令：<code>git rebase master</code>；<br>如果变基过程中如遇到冲突，可以执行命令查看冲突文件：<code>git am --show-current-patch</code>，此外可以执行命令回退到 rebase 前的状态：<code>git rebase --abort</code></li>
+<li>手动解决了冲突的文件，然后使用 <code>git add &lt;冲突的文件名&gt;</code> 把文件加进本地的仓库，然后再使用如下命令继续 rebase：<code>git rebase --continue</code>（rebase 如果遇到冲突是<strong><em>一个一个冲突提示的</em></strong>，然后一个一个冲突解决，git add，直至合并成功）</li>
+<li>rebase 完成后需要强推到远端功能分支：<code>git push --force origin &lt;开发分支名&gt;</code>；如果是多人开发的功能分支，可以使用如下命令：<code>git push --force-with-lease origin &lt;开发分支名&gt;</code>，<em>使用该命令在强制覆盖前会进行一次检查如果其他人在该分支上有提交会有一个警告，此时可以避免福改代码的风险</em></li>
+<li>此时再切换回本地 master 分支，把功能分支合并进来：<code>git merge &lt;开发分支名&gt;</code></li>
+<li>最后使用 <code>git push</code> 把 master 分支推送到远程</li>
+</ol>
+<h3 id="07-测试分支的使用"><a href="#07-测试分支的使用" class="headerlink" title="07 测试分支的使用"></a>07 测试分支的使用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature/grtest</span><br><span class="line">git pull</span><br><span class="line">git merge origin 你的分支</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+<p><strong>END</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#零、杂谈"><span class="toc-number">1.</span> <span class="toc-text">零、杂谈</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、git-常用操作的命令"><span class="toc-number">2.</span> <span class="toc-text">一、git 常用操作的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#00-推送代码到远端"><span class="toc-number">2.1.</span> <span class="toc-text">00 推送代码到远端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#01-标签相关"><span class="toc-number">2.2.</span> <span class="toc-text">01 标签相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-列出标签"><span class="toc-number">2.2.1.</span> <span class="toc-text">1 列出标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-创建标签"><span class="toc-number">2.2.2.</span> <span class="toc-text">2 创建标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-推送标签"><span class="toc-number">2.2.3.</span> <span class="toc-text">3 推送标签</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-分支"><span class="toc-number">2.3.</span> <span class="toc-text">02 分支</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-创建并切换到新分支"><span class="toc-number">2.3.1.</span> <span class="toc-text">1 创建并切换到新分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-显示分支"><span class="toc-number">2.3.2.</span> <span class="toc-text">2 显示分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-推送分支到远端"><span class="toc-number">2.3.3.</span> <span class="toc-text">3 推送分支到远端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-拉取分支"><span class="toc-number">2.3.4.</span> <span class="toc-text">4 拉取分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-分支的合并"><span class="toc-number">2.3.5.</span> <span class="toc-text">5 分支的合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-分支的变基"><span class="toc-number">2.3.6.</span> <span class="toc-text">6 分支的变基</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#07-测试分支的使用"><span class="toc-number">2.3.7.</span> <span class="toc-text">07 测试分支的使用</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/12/23/my-git-common-operations/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/12/23/my-git-common-operations/&text=git 常用操作流程"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/12/23/my-git-common-operations/&is_video=false&description=git 常用操作流程"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=git 常用操作流程&body=Check out this article: http://yoursite.com/2020/12/23/my-git-common-operations/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/12/23/my-git-common-operations/&title=git 常用操作流程"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/12/23/my-git-common-operations/&name=git 常用操作流程&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+       <!--  <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a> -->
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &nbsp;&copy;&nbsp; 2019 - 2022 &nbsp; 陈加菲
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?0338d70f1784f1bdf5625252c8145f87";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

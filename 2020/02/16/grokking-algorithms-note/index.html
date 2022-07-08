@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="这次因为疫情，在家办公了好一段时间，目前来看还要在家一周。在家办公不好的是，总给人感觉是 24 小时 on call，经常晚上了也要继续加班…另外是需要自己做饭洗碗，而办公的桌子椅子坐着也很不舒服。当然啦，也有好的地方，不用通勤，睡的时间更多了，也更方便抽空看书。 今年第一本看完的技术书是薄薄的《算法图解》，看完后自觉对算法有了更加系统、体系的认识，也更加明白自己在哪方面需要补强。例如数据结构上">
+<meta name="keywords" content="算法,数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「读书笔记」算法是什么">
+<meta property="og:url" content="http://yoursite.com/2020/02/16/grokking-algorithms-note/index.html">
+<meta property="og:site_name" content="慵懒的他">
+<meta property="og:description" content="这次因为疫情，在家办公了好一段时间，目前来看还要在家一周。在家办公不好的是，总给人感觉是 24 小时 on call，经常晚上了也要继续加班…另外是需要自己做饭洗碗，而办公的桌子椅子坐着也很不舒服。当然啦，也有好的地方，不用通勤，睡的时间更多了，也更方便抽空看书。 今年第一本看完的技术书是薄薄的《算法图解》，看完后自觉对算法有了更加系统、体系的认识，也更加明白自己在哪方面需要补强。例如数据结构上">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/book-side.jpg">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/book-vertical.jpg">
+<meta property="og:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/algorithms-note.png">
+<meta property="og:updated_time" content="2022-07-08T13:40:39.939Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「读书笔记」算法是什么">
+<meta name="twitter:description" content="这次因为疫情，在家办公了好一段时间，目前来看还要在家一周。在家办公不好的是，总给人感觉是 24 小时 on call，经常晚上了也要继续加班…另外是需要自己做饭洗碗，而办公的桌子椅子坐着也很不舒服。当然啦，也有好的地方，不用通勤，睡的时间更多了，也更方便抽空看书。 今年第一本看完的技术书是薄薄的《算法图解》，看完后自觉对算法有了更加系统、体系的认识，也更加明白自己在哪方面需要补强。例如数据结构上">
+<meta name="twitter:image" content="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/book-side.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/myBlog-favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/myBlog-favicon.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/myBlog-favicon.png">
+          
+        
+    
+    <!-- title -->
+    <title>「读书笔记」算法是什么</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/22/thinking-about-recent-work/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/26/2019-summary/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+       <!--  <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li> -->
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/16/grokking-algorithms-note/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&text=「读书笔记」算法是什么"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&is_video=false&description=「读书笔记」算法是什么"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=「读书笔记」算法是什么&body=Check out this article: http://yoursite.com/2020/02/16/grokking-algorithms-note/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&name=「读书笔记」算法是什么&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法是什么"><span class="toc-number">1.</span> <span class="toc-text">算法是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法需要了解什么"><span class="toc-number">2.</span> <span class="toc-text">算法需要了解什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据结构是什么"><span class="toc-number">3.</span> <span class="toc-text">数据结构是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法的应用"><span class="toc-number">4.</span> <span class="toc-text">算法的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一些算法思想"><span class="toc-number">4.1.</span> <span class="toc-text">一些算法思想</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#算法应用分类"><span class="toc-number">4.2.</span> <span class="toc-text">算法应用分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#《算法图解》笔记脑图"><span class="toc-number">5.</span> <span class="toc-text">《算法图解》笔记脑图</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        「读书笔记」算法是什么
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">陈加菲</span>
+      </span>&nbsp
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-16T13:13:30.000Z" itemprop="datePublished">2020-02-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/数据结构/">数据结构</a>, <a class="tag-link" href="/tags/算法/">算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>这次因为疫情，在家办公了好一段时间，目前来看还要在家一周。在家办公不好的是，总给人感觉是 24 小时 on call，经常晚上了也要继续加班…另外是需要自己做饭洗碗，而办公的桌子椅子坐着也很不舒服。当然啦，也有好的地方，不用通勤，睡的时间更多了，也更方便抽空看书。</p>
+<p>今年第一本看完的技术书是薄薄的《<a href="https://book.douban.com/subject/26979890/" target="_blank" rel="noopener">算法图解</a>》，看完后自觉对算法有了更加系统、体系的认识，也更加明白自己在哪方面需要补强。例如数据结构上的树、图，对原理，操作，使用都不甚了解。而基础的散列表，栈，队列，也需要加强实践。</p>
+<p>这篇文章是在自己总结的脑图的基础上写成的，说了一下自己对算法的认识。</p>
+</blockquote>
+<h3 id="算法是什么"><a href="#算法是什么" class="headerlink" title="算法是什么"></a>算法是什么</h3><p>算法是一组完成任务的指令，能够解决问题，体现了一种思想。这样讲比较模糊，让我来打个比喻。</p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/book-side.jpg" alt="横着排的书" title="横着排的书" style="zoom:55%;"></p>
+<p>桌子上横放了几本书，我想要拿出《算法图解》时，我是这么打算的：</p>
+<blockquote>
+<p>先拿最上面第一本书，不是我想要的，放一边，再拿一本，还不是，继续拿吧，直至拿到《算法图解》。</p>
+</blockquote>
+<p>这个过程便是算法的体现。我的问题是需要拿出一堆书中的《算法图解》，而我的方法是一本一本地拿，直到拿到的书为我想要的。</p>
+<p>转换为程序时，我们可能会有这些东西：由一堆书组成的数据，以及，可能是由数组这一结构存储着书籍数据，然后，编写代码遍历这个数组，直至获取到的元素为《算法图解》。</p>
+<h3 id="算法需要了解什么"><a href="#算法需要了解什么" class="headerlink" title="算法需要了解什么"></a>算法需要了解什么</h3><p>继续以上面的例子为例，在程序中，我认为算法需要了解的事情有三样：<strong>数据，数据结构，及算法的思想</strong>。</p>
+<ul>
+<li>数据：书籍</li>
+<li>数据结构：数组</li>
+<li>算法的思想：遍历数组元素，判断是否为《算法图解》</li>
+</ul>
+<p>所以，对算法的学习，归根结底，是学习</p>
+<ol>
+<li>如何组织数据——使用什么数据结构，各种数据结构的操作方式与优缺点</li>
+<li>如何操作数据——体现了算法的思想，如何更快的解决问题，如何更让人易懂地解决问题</li>
+</ol>
+<p>没错，解决问题的思路不会只有一种，因此，我们会追求更快、更易懂的解决思路，这里便引申出一个问题：<strong>如何评价算法？</strong></p>
+<p>从两个维度：<strong>时间，空间</strong>。</p>
+<p>时间指的是算法执行的时间，但一般不是直接使用秒或其他时间单位来衡量一种算法快慢的，因为，<strong>随着数据量的增大，不同算法的快慢程度，变化是不一样的</strong>。我们一般使用算法对数据的<strong>操作次数</strong>来衡量算法的时间（大 O 表示法）。</p>
+<p>空间指的是，算法编写成程序，运行时占用的内存大小，因为内存资源并不是无限大，因此就要求在有效的资源内，编写更高效的算法。而算法空间的衡量，也同样使用大 O 表示法。</p>
+<h3 id="数据结构是什么"><a href="#数据结构是什么" class="headerlink" title="数据结构是什么"></a>数据结构是什么</h3><p>接着讲数据结构。数据结构是组织数据的方式，例如，上面的书是横着放的，这是一个组织书的方式，但当我要拿《算法图解》的时候，便会发觉有些麻烦，因为它在最底下，需要把上面的书先拿起来才能拿到。当然了，我们可以换种整理书的方式：竖着排</p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/book-vertical.jpg" alt="竖着排的书" title="竖着排的书" style="zoom:55%;"></p>
+<p>好了，现在无论是那本书，我们都可以很容易地立刻拿到。这种竖着排的方式，是另一种组织书的方式，因此它是另一种数据结构。</p>
+<p>细看这两种数据结构，我们发现，横着排的书，想拿底下的书就显得很麻烦，而竖着排，无论是那本书都很方便拿到。</p>
+<p>回到程序的世界，不同的数据结构也是如此，都是组织数据的不同方式，而组织的方式不同，各有不同的优缺点。在程序中，一般会有这几种不同的数据结构：</p>
+<p><strong>数组，链表，散列表，队列，栈，树，图。</strong></p>
+<p>这些数据结构各有特点，适用于不同的场景，这就是要求学习算法需掌握的地方。目前而言，我对于树跟图还不够熟悉，其他几个数据结构都了解其原理与应用，欠缺的是更多的实践。</p>
+<h3 id="算法的应用"><a href="#算法的应用" class="headerlink" title="算法的应用"></a>算法的应用</h3><h4 id="一些算法思想"><a href="#一些算法思想" class="headerlink" title="一些算法思想"></a>一些算法思想</h4><p>处理数据的过程，有时候可归为某类问题，而这些问题，经过人们不断地实践，总结了许多解决的思路，例如</p>
+<ol>
+<li>递归：调用自身来解决问题</li>
+<li>分而治之：把问题划分为同类的小问题，通过解决小问题最终解决整个问题</li>
+<li>贪婪策略：总是做出在当前看来是最好的选择</li>
+<li>动态规划：使用网格推演子问题解决过程来解决整个问题</li>
+<li>特征抽取：将事务转换为计算机能理解的数据（多元组）</li>
+</ol>
+<p>等等。</p>
+<h4 id="算法应用分类"><a href="#算法应用分类" class="headerlink" title="算法应用分类"></a>算法应用分类</h4><p>在程序中，算法要处理的对象是数据，而这些处理，大致可划分为几大方面：</p>
+<ul>
+<li>查找</li>
+<li>搜索</li>
+<li>排序</li>
+<li>分类</li>
+<li>预测</li>
+</ul>
+<p>在这些分类中，要面对的问题就具体很多，对于具体的问题，更容易沉淀出通用的解决方法，所以，这里会有很多解决问题的算法。例如，查找可以使用二分查找，搜索可以使用广度优先搜索，排序可以使用快速排序，等等。</p>
+<p>而这些，也正是一般接触算法时听得比较多的名词，我想正是因为他们解决的问题都是最具体，特定的问题。</p>
+<h3 id="《算法图解》笔记脑图"><a href="#《算法图解》笔记脑图" class="headerlink" title="《算法图解》笔记脑图"></a>《算法图解》笔记脑图</h3><p>这里是我总结的脑图，读完这本书，解决了我对算法比较模糊的理解，对算法有了更加系统的认识，当然，认识还不算深入，需要继续掌握树、图等数据结构，以及各种复杂的算法思想。</p>
+<p><img src="https://jluncc-blog.oss-cn-hangzhou.aliyuncs.com/images/grokking-algorithms-note/algorithms-note.png" alt="算法图解笔记脑图" title="算法图解笔记脑图"></p>
+<p><strong>END</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#算法是什么"><span class="toc-number">1.</span> <span class="toc-text">算法是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法需要了解什么"><span class="toc-number">2.</span> <span class="toc-text">算法需要了解什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据结构是什么"><span class="toc-number">3.</span> <span class="toc-text">数据结构是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法的应用"><span class="toc-number">4.</span> <span class="toc-text">算法的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一些算法思想"><span class="toc-number">4.1.</span> <span class="toc-text">一些算法思想</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#算法应用分类"><span class="toc-number">4.2.</span> <span class="toc-text">算法应用分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#《算法图解》笔记脑图"><span class="toc-number">5.</span> <span class="toc-text">《算法图解》笔记脑图</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/16/grokking-algorithms-note/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&text=「读书笔记」算法是什么"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&is_video=false&description=「读书笔记」算法是什么"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=「读书笔记」算法是什么&body=Check out this article: http://yoursite.com/2020/02/16/grokking-algorithms-note/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&title=「读书笔记」算法是什么"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/16/grokking-algorithms-note/&name=「读书笔记」算法是什么&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+       <!--  <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a> -->
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &nbsp;&copy;&nbsp; 2019 - 2022 &nbsp; 陈加菲
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">话题</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?0338d70f1784f1bdf5625252c8145f87";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
